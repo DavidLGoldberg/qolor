@@ -10,7 +10,7 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'qolor'
+      'label': 'Qolor'
       'submenu': [
         {
           'label': 'Toggle'
