@@ -4,6 +4,13 @@
   "version": "0.0.0",
   "description": "A short description of your package",
   "keywords": [
+    "sql",
+    "query",
+    "syntax",
+    "highlight",
+    "color",
+    "tables",
+    "joins"
   ],
   "activationCommands": {
     "atom-workspace": "qolor:toggle"
