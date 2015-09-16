@@ -1,15 +1,14 @@
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Point, Range} = require 'atom'
 
 class QolorView extends HTMLElement
+    # Private
+    markers: []
+
     # Public
     initialize: () ->
-        console.log 'initializeeee'
-
         @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
-            console.log '??????????? observe'
             disposable = editor.onDidStopChanging =>
-                console.log 'changeeeee'
                 @update(editor)
 
             editor.onDidDestroy -> disposable.dispose()
@@ -17,28 +16,30 @@ class QolorView extends HTMLElement
     # Public
     destroy: ->
         @subscriptions?.dispose()
+        for marker in @markers
+            marker.destroy()
 
     # Private
     update: (editor) ->
-        console.log 'in updateeeeee'
         grammar = editor.getGrammar()
         if grammar.name == 'SQL'
-            console.log 'in a sql file!'
-
             text = editor.getText()
-            console.log text
 
             for line, lineNum in grammar.tokenizeLines(text)
+                tokenPos = 0
                 saveNext = false
                 for token, tokenIndex in line
                     if saveNext
-                        console.log token.value, '@', tokenIndex, 'on line ', lineNum
+                        saveNext = false # this is for same lines
+                        marker = editor.markBufferRange new Range(new Point(lineNum, tokenPos + 1), new Point(lineNum, tokenPos + token.value.length - 1)) # +1 -1 handle extra spaces.
+                        @markers.push marker
+                        decoration = editor.decorateMarker(marker, {type: 'highlight', class: 'qolor-table'})
                     if token.value in ['from', 'join']
                         saveNext = true
                     else
                         saveNext = false
-        else
-            console.log 'do nothing!'
+                    tokenPos += token.value.length
+
 
 module.exports = document.registerElement('qolor-view',
                                           prototype: QolorView.prototype,
