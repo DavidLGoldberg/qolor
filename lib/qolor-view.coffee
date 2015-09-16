@@ -1,22 +1,45 @@
-module.exports =
-class QolorView
-  constructor: (serializedState) ->
-    # Create root element
-    @element = document.createElement('div')
-    @element.classList.add('qolor')
+{CompositeDisposable} = require 'atom'
 
-    # Create message element
-    message = document.createElement('div')
-    message.textContent = "The Qolor package is Alive! It's ALIVE!"
-    message.classList.add('message')
-    @element.appendChild(message)
+class QolorView extends HTMLElement
+    # Public
+    initialize: () ->
+        console.log 'initializeeee'
 
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
+        @subscriptions = new CompositeDisposable
+        @subscriptions.add atom.workspace.observeTextEditors (editor) =>
+            console.log '??????????? observe'
+            disposable = editor.onDidStopChanging =>
+                console.log 'changeeeee'
+                @update(editor)
 
-  # Tear down any state and detach
-  destroy: ->
-    @element.remove()
+            editor.onDidDestroy -> disposable.dispose()
 
-  getElement: ->
-    @element
+    # Public
+    destroy: ->
+        @subscriptions?.dispose()
+
+    # Private
+    update: (editor) ->
+        console.log 'in updateeeeee'
+        grammar = editor.getGrammar()
+        if grammar.name == 'SQL'
+            console.log 'in a sql file!'
+
+            text = editor.getText()
+            console.log text
+
+            for line, lineNum in grammar.tokenizeLines(text)
+                saveNext = false
+                for token, tokenIndex in line
+                    if saveNext
+                        console.log token.value, '@', tokenIndex, 'on line ', lineNum
+                    if token.value in ['from', 'join']
+                        saveNext = true
+                    else
+                        saveNext = false
+        else
+            console.log 'do nothing!'
+
+module.exports = document.registerElement('qolor-view',
+                                          prototype: QolorView.prototype,
+                                          extends: 'div')

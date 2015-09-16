@@ -1,33 +1,18 @@
 QolorView = require './qolor-view'
-{CompositeDisposable} = require 'atom'
 
-module.exports = Qolor =
-  qolorView: null
-  modalPanel: null
-  subscriptions: null
+class Qolor
+    # Private view.
+    view: null
 
-  activate: (state) ->
-    @qolorView = new QolorView(state.qolorViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @qolorView.getElement(), visible: false)
+    # Public: Activates the package.
+    activate: ->
+        @view = new QolorView
+        @view.initialize()
 
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
-    @subscriptions = new CompositeDisposable
+    # Public: Deactivates the package.
+    deactivate: ->
+        # @subscriptions.dispose()
+        @view?.destroy()
+        @view = null
 
-    # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'qolor:toggle': => @toggle()
-
-  deactivate: ->
-    @modalPanel.destroy()
-    @subscriptions.dispose()
-    @qolorView.destroy()
-
-  serialize: ->
-    qolorViewState: @qolorView.serialize()
-
-  toggle: ->
-    console.log 'Qolor was toggled!'
-
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()
+module.exports = new Qolor

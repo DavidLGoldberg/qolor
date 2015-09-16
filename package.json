@@ -12,9 +12,6 @@
     "tables",
     "joins"
   ],
-  "activationCommands": {
-    "atom-workspace": "qolor:toggle"
-  },
   "repository": "https://github.com/atom/qolor",
   "license": "MIT",
   "engines": {
