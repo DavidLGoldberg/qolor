@@ -33,9 +33,16 @@ class QolorView extends HTMLElement
             for token, tokenIndex in line
                 if saveNext
                     saveNext = false # this is for same lines
-                    marker = editor.markBufferRange new Range(new Point(lineNum, tokenPos + 1), new Point(lineNum, tokenPos + token.value.length - 1)) # +1 -1 handle extra spaces.
+
+                    # +1 -1 handle extra spaces.
+                    marker = editor.markBufferRange new Range(
+                        new Point(lineNum, tokenPos + 1),
+                        new Point(lineNum, tokenPos + token.value.length - 1))
                     @markers.push marker
-                    decoration = editor.decorateMarker(marker, {type: 'highlight', class: 'qolor-table'})
+                    decoration = editor.decorateMarker marker,
+                        type: 'highlight'
+                        class: 'qolor-table'
+
                 if token.value in ['from', 'join']
                     saveNext = true
                 else
