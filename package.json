@@ -2,7 +2,7 @@
   "name": "qolor",
   "main": "./lib/qolor",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "An atom package to color your queries!",
   "keywords": [
     "sql",
     "query",
