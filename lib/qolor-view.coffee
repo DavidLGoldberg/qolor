@@ -23,6 +23,19 @@ class QolorView extends HTMLElement
 
     # Private
     update: (editor) ->
+        decorate = (token) =>
+            tableName = token.value.trim()
+
+            # +1 -1 handle extra spaces.
+            marker = editor.markBufferRange new Range(
+                new Point(lineNum, tokenPos + 1),
+                new Point(lineNum, tokenPos + token.value.length - 1)),
+                type: 'qolor'
+            @markers.push marker
+            decoration = editor.decorateMarker marker,
+                type: 'highlight'
+                class: 'qolor-table'
+
         grammar = editor.getGrammar()
         unless grammar.name == 'SQL'
             return
@@ -36,17 +49,7 @@ class QolorView extends HTMLElement
                 if saveNext
                     saveNext = false # this is for same lines
 
-                    tableName = token.value.trim()
-
-                    # +1 -1 handle extra spaces.
-                    marker = editor.markBufferRange new Range(
-                        new Point(lineNum, tokenPos + 1),
-                        new Point(lineNum, tokenPos + token.value.length - 1)),
-                        type: 'qolor'
-                    @markers.push marker
-                    decoration = editor.decorateMarker marker,
-                        type: 'highlight'
-                        class: 'qolor-table'
+                    decorate token
 
                 if token.value in ['from', 'join']
                     saveNext = true
