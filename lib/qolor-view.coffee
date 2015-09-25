@@ -9,9 +9,11 @@ class QolorView extends HTMLElement
         @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
             disposable = editor.onDidStopChanging =>
-                @update(editor)
+                @update editor
 
             editor.onDidDestroy -> disposable.dispose()
+
+            @update editor # for spec tests and initial load for example
 
     # Public
     destroy: ->
@@ -34,10 +36,13 @@ class QolorView extends HTMLElement
                 if saveNext
                     saveNext = false # this is for same lines
 
+                    tableName = token.value.trim()
+
                     # +1 -1 handle extra spaces.
                     marker = editor.markBufferRange new Range(
                         new Point(lineNum, tokenPos + 1),
-                        new Point(lineNum, tokenPos + token.value.length - 1))
+                        new Point(lineNum, tokenPos + token.value.length - 1)),
+                        type: 'qolor'
                     @markers.push marker
                     decoration = editor.decorateMarker marker,
                         type: 'highlight'
