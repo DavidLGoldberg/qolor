@@ -22,5 +22,17 @@ describe "QolorView", ->
             editor.setGrammar(grammar)
 
     describe 'when activated', ->
-        it "has marker after a from", ->
-            expect(editor.findMarkers(type: 'qolor').length).toBe 4
+        it "has markers after from statements", ->
+            from1 = editor.findMarkers(type: 'qolor')[0].getBufferRange()
+            expect(from1.start.row).toBe 1
+            expect(from1.start.column).toBe 14
+            expect(from1.end.row).toBe 1
+            expect(from1.end.column).toBe 22
+
+            from2 = editor.findMarkers(type: 'qolor')[1].getBufferRange()
+            expect(from2.start.row).toBe 2
+            expect(from2.start.column).toBe 14
+            expect(from2.end.row).toBe 2
+            expect(from2.end.column).toBe 22
+
+        it "has markers after on statements", ->
