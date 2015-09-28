@@ -35,4 +35,15 @@ describe "QolorView", ->
             expect(from2.end.row).toBe 2
             expect(from2.end.column).toBe 22
 
-        it "has markers after on statements", ->
+        it "has markers after join statements", ->
+            join1 = editor.findMarkers(type: 'qolor')[2].getBufferRange()
+            expect(join1.start.row).toBe 5
+            expect(join1.start.column).toBe 5
+            expect(join1.end.row).toBe 5
+            expect(join1.end.column).toBe 13
+
+            join2 = editor.findMarkers(type: 'qolor')[3].getBufferRange()
+            expect(join2.start.row).toBe 5
+            expect(join2.start.column).toBe 34
+            expect(join2.end.row).toBe 5
+            expect(join2.end.column).toBe 39
