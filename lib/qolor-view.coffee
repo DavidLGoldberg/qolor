@@ -44,17 +44,17 @@ class QolorView extends HTMLElement
 
         for line, lineNum in grammar.tokenizeLines(text)
             tokenPos = 0
-            saveNext = false
+            decorateNext = false
             for token, tokenIndex in line
-                if saveNext
-                    saveNext = false # this is for same lines
-
+                if decorateNext
+                    decorateNext = false # this is for same lines
                     decorate token
 
                 if token.value in ['from', 'join']
-                    saveNext = true
+                    decorateNext = true
                 else
-                    saveNext = false
+                    decorateNext = false
+
                 tokenPos += token.value.length
 
 module.exports = document.registerElement('qolor-view',
