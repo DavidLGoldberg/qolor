@@ -1,4 +1,4 @@
-{CompositeDisposable, Point, Range} = require 'atom'
+{Disposable, CompositeDisposable, Point, Range} = require 'atom'
 
 class QolorView extends HTMLElement
     # Private
@@ -23,7 +23,36 @@ class QolorView extends HTMLElement
 
     # Private
     update: (editor) ->
+        grammar = editor.getGrammar()
+        unless grammar.name == 'SQL'
+            return
+
+        text = editor.getText()
+        editorView = atom.views.getView(editor)
+
+        getClass = (name) ->
+            "qolor-name-#{name.trim().replace(' ', '-')}"
+
+        # Technique inspired from @olmokramer
+        # https://github.com/olmokramer/atom-block-cursor/blob/master/lib/block-cursor.js
+        # create a stylesheet element and attach it to the DOM
+        addStyle = (name) ->
+            styleNode = document.createElement 'style'
+            styleNode.type = 'text/css'
+            styleNode.innerHTML = """
+                .highlight.#{getClass(name)} .region {
+                    background-color: blue;
+                }
+            """
+            editorView.stylesElement.appendChild styleNode
+
+            # return a disposable for easy removal
+            return new Disposable ->
+                styleNode.parentNode.removeChild(styleNode)
+                styleNode = null
+
         decorate = (token, trim = true) =>
+            @subscriptions.add addStyle token.value
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
                 new Point(lineNum,
@@ -31,16 +60,12 @@ class QolorView extends HTMLElement
                 new Point(lineNum,
                     tokenPos + token.value.length - (if trim then 1 else 0))),
                 type: 'qolor'
+
             @markers.push marker
+
             decoration = editor.decorateMarker marker,
                 type: 'highlight'
-                class: 'qolor-table'
-
-        grammar = editor.getGrammar()
-        unless grammar.name == 'SQL'
-            return
-
-        text = editor.getText()
+                class: getClass(token.value)
 
         for line, lineNum in grammar.tokenizeLines(text)
             tokenPos = 0
