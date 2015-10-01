@@ -5,6 +5,8 @@ class QolorView extends HTMLElement
     # Private
     markers: []
 
+    aliases: {}
+
     # Public
     initialize: () ->
         @subscriptions = new CompositeDisposable
@@ -32,7 +34,7 @@ class QolorView extends HTMLElement
         editorView = atom.views.getView(editor)
 
         getClass = (name) ->
-            "qolor-name-#{name.trim().replace(' ', '-')}"
+            "qolor-name-#{name}"
 
         getColor = (name) ->
             (parseInt(md5(name), 16) %% 0xffffff).toString(16)
@@ -40,12 +42,12 @@ class QolorView extends HTMLElement
         # Technique inspired from @olmokramer
         # https://github.com/olmokramer/atom-block-cursor/blob/master/lib/block-cursor.js
         # create a stylesheet element and attach it to the DOM
-        addStyle = (name) ->
+        addStyle = (name, className, color) ->
             styleNode = document.createElement 'style'
             styleNode.type = 'text/css'
             styleNode.innerHTML = """
-                .highlight.#{getClass(name)} .region {
-                    border-bottom: 4px solid ##{getColor(name)};
+                .highlight.#{className} .region {
+                    border-bottom: 4px solid ##{color};
                 }
             """
             editorView.stylesElement.appendChild styleNode
@@ -55,8 +57,18 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
-        decorate = (token) =>
-            @subscriptions.add addStyle token.value
+        decorate = (token, table=false) =>
+            if table
+                [tableName, alias] = token.value.trim().split(' ')
+                color = getColor tableName
+                @aliases[alias] = tableName
+                className = getClass(tableName)
+                @subscriptions.add addStyle(tableName, className, color)
+            else
+                if !@aliases[token.value]
+                    return
+
+                className = getClass(@aliases[token.value])
 
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
@@ -68,7 +80,7 @@ class QolorView extends HTMLElement
 
             decoration = editor.decorateMarker marker,
                 type: 'highlight'
-                class: getClass(token.value)
+                class: className
 
         for line, lineNum in grammar.tokenizeLines(text)
             tokenPos = 0
@@ -79,7 +91,7 @@ class QolorView extends HTMLElement
 
                 if decorateNext
                     decorateNext = false # this is for same lines
-                    decorate token
+                    decorate token, true
 
                 if token.value in ['from', 'join']
                     decorateNext = true
