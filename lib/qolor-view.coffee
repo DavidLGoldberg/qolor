@@ -41,7 +41,7 @@ class QolorView extends HTMLElement
             styleNode.type = 'text/css'
             styleNode.innerHTML = """
                 .highlight.#{getClass(name)} .region {
-                    background-color: blue;
+                    border-bottom: 4px solid blue;
                 }
             """
             editorView.stylesElement.appendChild styleNode
