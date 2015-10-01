@@ -57,23 +57,24 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
-        decorate = (token, table=false) =>
-            if table
-                [tableName, alias] = token.value.trim().split(' ')
-                color = getColor tableName
+        decorate = (tokenValue, originalTokenLength, isTable=false) =>
+            if isTable
+                [tableName, alias] = tokenValue.split ' '
                 @aliases[alias] = tableName
-                className = getClass(tableName)
+                className = getClass tableName
+                color = getColor tableName
                 @subscriptions.add addStyle(tableName, className, color)
-            else
-                if !@aliases[token.value]
+            else # alias:
+                # TODO: I'll have to do a second pass through to get all aliases
+                if !@aliases[tokenValue] # don't have one already?
                     return
 
-                className = getClass(@aliases[token.value])
+                className = getClass @aliases[tokenValue]
 
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
                 new Point(lineNum, tokenPos + 1),
-                new Point(lineNum, tokenPos + token.value.length - 1)),
+                new Point(lineNum, tokenPos + originalTokenLength - 1)),
                 type: 'qolor'
 
             @markers.push marker
@@ -86,19 +87,22 @@ class QolorView extends HTMLElement
             tokenPos = 0
             decorateNext = false
             for token, tokenIndex in line
+                tokenValue = token.value.trim().toLowerCase()
+                originalTokenLength = token.value.length
+
                 if "constant.other.database-name.sql" in token.scopes
-                    decorate token
+                    decorate tokenValue, originalTokenLength
 
                 if decorateNext
                     decorateNext = false # this is for same lines
-                    decorate token, true
+                    decorate tokenValue, originalTokenLength, true
 
-                if token.value in ['from', 'join']
+                if tokenValue in ['from', 'join']
                     decorateNext = true
                 else
                     decorateNext = false
 
-                tokenPos += token.value.length
+                tokenPos += originalTokenLength
 
 module.exports = document.registerElement('qolor-view',
                                           prototype: QolorView.prototype,
