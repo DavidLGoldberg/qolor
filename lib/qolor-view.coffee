@@ -1,4 +1,5 @@
 {Disposable, CompositeDisposable, Point, Range} = require 'atom'
+md5 = require 'md5'
 
 class QolorView extends HTMLElement
     # Private
@@ -33,6 +34,9 @@ class QolorView extends HTMLElement
         getClass = (name) ->
             "qolor-name-#{name.trim().replace(' ', '-')}"
 
+        getColor = (name) ->
+            (parseInt(md5(name), 16) %% 0xffffff).toString(16)
+
         # Technique inspired from @olmokramer
         # https://github.com/olmokramer/atom-block-cursor/blob/master/lib/block-cursor.js
         # create a stylesheet element and attach it to the DOM
@@ -41,7 +45,7 @@ class QolorView extends HTMLElement
             styleNode.type = 'text/css'
             styleNode.innerHTML = """
                 .highlight.#{getClass(name)} .region {
-                    border-bottom: 4px solid blue;
+                    border-bottom: 4px solid ##{getColor(name)};
                 }
             """
             editorView.stylesElement.appendChild styleNode
