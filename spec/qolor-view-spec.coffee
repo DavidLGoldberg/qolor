@@ -42,14 +42,14 @@ describe "QolorView", ->
             expect(join1.end.row).toBe 5
             expect(join1.end.column).toBe 13
 
-            join2 = editor.findMarkers(type: 'qolor')[7].getBufferRange()
+            join2 = editor.findMarkers(type: 'qolor')[5].getBufferRange()
             expect(join2.start.row).toBe 5
             expect(join2.start.column).toBe 34
             expect(join2.end.row).toBe 5
             expect(join2.end.column).toBe 39
 
         #TODO: Refactor to just use points.  Variables are error prone.
-        fit 'has markers after "on" statements', ->
+        it 'has markers after "on" statements', ->
             # 1st on statement
             on1LhsAlias = editor.findMarkers(type: 'qolor')[3].getBufferRange()
             expect(on1LhsAlias.start.row).toBe 5
@@ -57,45 +57,21 @@ describe "QolorView", ->
             expect(on1LhsAlias.end.row).toBe 5
             expect(on1LhsAlias.end.column).toBe 18
 
-            on1LhsField = editor.findMarkers(type: 'qolor')[4].getBufferRange()
-            expect(on1LhsField.start.row).toBe 5
-            expect(on1LhsField.start.column).toBe 19
-            expect(on1LhsField.end.row).toBe 5
-            expect(on1LhsField.end.column).toBe 21
-
-            on1RhsAlias = editor.findMarkers(type: 'qolor')[5].getBufferRange()
+            on1RhsAlias = editor.findMarkers(type: 'qolor')[4].getBufferRange()
             expect(on1RhsAlias.start.row).toBe 5
             expect(on1RhsAlias.start.column).toBe 24
             expect(on1RhsAlias.end.row).toBe 5
             expect(on1RhsAlias.end.column).toBe 25
 
-            on1RhsField = editor.findMarkers(type: 'qolor')[6].getBufferRange()
-            expect(on1RhsField.start.row).toBe 5
-            expect(on1RhsField.start.column).toBe 26
-            expect(on1RhsField.end.row).toBe 5
-            expect(on1RhsField.end.column).toBe 28
-
             # 2nd on statement
-            on2LhsAlias = editor.findMarkers(type: 'qolor')[8].getBufferRange()
+            on2LhsAlias = editor.findMarkers(type: 'qolor')[6].getBufferRange()
             expect(on2LhsAlias.start.row).toBe 5
             expect(on2LhsAlias.start.column).toBe 43
             expect(on2LhsAlias.end.row).toBe 5
             expect(on2LhsAlias.end.column).toBe 44
 
-            on2LhsField = editor.findMarkers(type: 'qolor')[9].getBufferRange()
-            expect(on2LhsField.start.row).toBe 5
-            expect(on2LhsField.start.column).toBe 45
-            expect(on2LhsField.end.row).toBe 5
-            expect(on2LhsField.end.column).toBe 47
-
-            on2RhsAlias = editor.findMarkers(type: 'qolor')[10].getBufferRange()
+            on2RhsAlias = editor.findMarkers(type: 'qolor')[7].getBufferRange()
             expect(on2RhsAlias.start.row).toBe 5
             expect(on2RhsAlias.start.column).toBe 48
             expect(on2RhsAlias.end.row).toBe 5
             expect(on2RhsAlias.end.column).toBe 49
-
-            on2RhsField = editor.findMarkers(type: 'qolor')[11].getBufferRange()
-            expect(on2RhsField.start.row).toBe 5
-            expect(on2RhsField.start.column).toBe 50
-            expect(on2RhsField.end.row).toBe 5
-            expect(on2RhsField.end.column).toBe 52

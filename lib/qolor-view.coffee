@@ -55,14 +55,13 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
-        decorate = (token, trim = true) =>
+        decorate = (token) =>
             @subscriptions.add addStyle token.value
+
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
-                new Point(lineNum,
-                    tokenPos + (if trim then 1 else 0)),
-                new Point(lineNum,
-                    tokenPos + token.value.length - (if trim then 1 else 0))),
+                new Point(lineNum, tokenPos + 1),
+                new Point(lineNum, tokenPos + token.value.length - 1)),
                 type: 'qolor'
 
             @markers.push marker
@@ -77,8 +76,6 @@ class QolorView extends HTMLElement
             for token, tokenIndex in line
                 if "constant.other.database-name.sql" in token.scopes
                     decorate token
-                else if "constant.other.table-name.sql" in token.scopes
-                    decorate token, false
 
                 if decorateNext
                     decorateNext = false # this is for same lines
