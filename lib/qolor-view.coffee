@@ -18,14 +18,19 @@ class QolorView extends HTMLElement
 
             @update editor # for spec tests and initial load for example
 
-    # Public
-    destroy: ->
-        @subscriptions?.dispose()
+    # Private
+    clearMarkers: ->
         for marker in @markers
             marker.destroy()
 
+    # Public
+    destroy: ->
+        @subscriptions?.dispose()
+        @clearMarkers()
+
     # Private
     update: (editor) ->
+        @clearMarkers()
         grammar = editor.getGrammar()
         unless grammar.name == 'SQL'
             return
