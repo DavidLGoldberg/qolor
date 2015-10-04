@@ -45,11 +45,12 @@ describe "QolorView", ->
             expect(name.end.row).toBe 5
             expect(name.end.column).toBe 13
 
-            # name = editor.findMarkers(type: 'qolor')[5].getBufferRange()
-            # expect(name.start.row).toBe 5
-            # expect(name.start.column).toBe 34
-            # expect(name.end.row).toBe 5
-            # expect(name.end.column).toBe 39
+        it 'has marker on "foo f"', ->
+            name = editor.findMarkers(type: 'qolor')[6].getBufferRange()
+            expect(name.start.row).toBe 5
+            expect(name.start.column).toBe 35
+            expect(name.end.row).toBe 5
+            expect(name.end.column).toBe 38
 
     describe 'on statement', ->
         #TODO: Refactor to just use points.  Variables are error prone.
@@ -64,7 +65,7 @@ describe "QolorView", ->
         xit 'has marker for alias (rhs) "t1"', ->
             name = editor.findMarkers(type: 'qolor')[5].getBufferRange()
             expect(name.start.row).toBe 5
-            expect(name.start.column).toBe 24   # ????
+            expect(name.start.column).toBe 24
             expect(name.end.row).toBe 5
             expect(name.end.column).toBe 26
 
