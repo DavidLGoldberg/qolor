@@ -42,6 +42,7 @@ class QolorView extends HTMLElement
             "qolor-name-#{name}"
 
         getColor = (name) ->
+            # TODO: #9dc80 .... too short!! Handle case for 'foo'
             (parseInt(md5(name), 16) %% 0xffffff).toString(16)
 
         # Technique inspired from @olmokramer
