@@ -62,7 +62,7 @@ describe "QolorView", ->
             expect(name.end.row).toBe 5
             expect(name.end.column).toBe 18
 
-        xit 'has marker for alias (rhs) "t1"', ->
+        it 'has marker for alias (rhs) "t1"', ->
             name = editor.findMarkers(type: 'qolor')[5].getBufferRange()
             expect(name.start.row).toBe 5
             expect(name.start.column).toBe 24
