@@ -62,7 +62,10 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
-        decorate = (tokenValue, originalTokenLength, isTable=false) =>
+        decorate = (token, lineNum, tokenPos, isTable=false) =>
+            tokenValue = token.value.trim().toLowerCase()
+            originalTokenLength = token.value.length
+
             if isTable
                 [tableName, alias] = tokenValue.split ' '
                 @aliases[alias] = tableName
@@ -88,26 +91,33 @@ class QolorView extends HTMLElement
                 type: 'highlight'
                 class: className
 
-        for line, lineNum in grammar.tokenizeLines(text)
-            tokenPos = 0
-            decorateNext = false
-            for token, tokenIndex in line
-                tokenValue = token.value.trim().toLowerCase()
-                originalTokenLength = token.value.length
+        decorateNext = false
 
-                if "constant.other.database-name.sql" in token.scopes
-                    decorate tokenValue, originalTokenLength
+        tables = (token, lineNum, tokenPos) ->
+            if decorateNext
+                decorateNext = false # this is for same lines
+                decorate token, lineNum, tokenPos, true
 
-                if decorateNext
-                    decorateNext = false # this is for same lines
-                    decorate tokenValue, originalTokenLength, true
+            if token.value in ['from', 'join']
+                decorateNext = true
+            else
+                decorateNext = false
 
-                if tokenValue in ['from', 'join']
-                    decorateNext = true
-                else
-                    decorateNext = false
+        aliases = (token, lineNum, tokenPos) ->
+            if "constant.other.database-name.sql" in token.scopes
+                decorate token, lineNum, tokenPos
 
-                tokenPos += originalTokenLength
+        traverser = (methods) ->
+            tokenizedLines = grammar.tokenizeLines(text)
+            for method in methods
+                for line, lineNum in tokenizedLines
+                    tokenPos = 0
+                    for token in line
+                        method token, lineNum, tokenPos
+                        tokenPos += token.value.length
+
+        # START:
+        traverser [tables, aliases]
 
 module.exports = document.registerElement('qolor-view',
                                           prototype: QolorView.prototype,
