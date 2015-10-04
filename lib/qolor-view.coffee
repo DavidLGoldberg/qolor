@@ -108,7 +108,7 @@ class QolorView extends HTMLElement
                 decorateNext = false
                 decorate token, lineNum, tokenPos, true
 
-            decorateNext = token.value in ['from', 'join']
+            decorateNext = token.value.toLowerCase() in ['from', 'join']
 
         aliases = (token, lineNum, tokenPos) ->
             if "constant.other.database-name.sql" in token.scopes
