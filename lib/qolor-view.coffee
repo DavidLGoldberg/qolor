@@ -95,7 +95,7 @@ class QolorView extends HTMLElement
 
         tables = (token, lineNum, tokenPos) ->
             if decorateNext
-                decorateNext = false # this is for same lines
+                decorateNext = false
                 decorate token, lineNum, tokenPos, true
 
             decorateNext = token.value in ['from', 'join']
