@@ -62,6 +62,8 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
+        # TODO: maybe abstract out different decorators
+        # one for is table one for aliases for example instead of if else..
         decorate = (token, lineNum, tokenPos, isTable=false) =>
             tokenValue = token.value.trim().toLowerCase()
             originalTokenLength = token.value.length
@@ -73,8 +75,8 @@ class QolorView extends HTMLElement
                 color = getColor tableName
                 @subscriptions.add addStyle(tableName, className, color)
             else # alias:
-                # TODO: I'll have to do a second pass through to get all aliases
-                if !@aliases[tokenValue] # don't have one already?
+                # NOTE: Assert: Is 2ND PASS ("aliases") ONLY!
+                if !@aliases[tokenValue] # only if it's a bogus alias...
                     return
 
                 className = getClass @aliases[tokenValue]
