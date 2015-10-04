@@ -50,12 +50,18 @@ describe "QolorView", ->
             expect(name.start.row).toBe 5
             expect(name.start.column).toBe 35
             expect(name.end.row).toBe 5
-            expect(name.end.column).toBe 38
+            expect(name.end.column).toBe 40
 
     describe 'on statement', ->
         #TODO: Refactor to just use points.  Variables are error prone.
+        it 'has marker for alias (lhs) "t2"', ->
+            name = editor.findMarkers(type: 'qolor')[2].getBufferRange()
+            expect(name.start.row).toBe 2
+            expect(name.start.column).toBe 29
+            expect(name.end.row).toBe 2
+            expect(name.end.column).toBe 31
+
         it 'has marker for alias (lhs) "p"', ->
-            # 1st on statement
             name = editor.findMarkers(type: 'qolor')[4].getBufferRange()
             expect(name.start.row).toBe 5
             expect(name.start.column).toBe 17
@@ -69,12 +75,12 @@ describe "QolorView", ->
             expect(name.end.row).toBe 5
             expect(name.end.column).toBe 26
 
-            # 2nd on statement
-            # name = editor.findMarkers(type: 'qolor')[6].getBufferRange()
-            # expect(name.start.row).toBe 5
-            # expect(name.start.column).toBe 43
-            # expect(name.end.row).toBe 5
-            # expect(name.end.column).toBe 44
+        it 'has marker for alias (lhs) "f"', ->
+            name = editor.findMarkers(type: 'qolor')[7].getBufferRange()
+            expect(name.start.row).toBe 5
+            expect(name.start.column).toBe 44
+            expect(name.end.row).toBe 5
+            expect(name.end.column).toBe 45
 
         it 'has marker for alias (rhs) "p"', ->
             name = editor.findMarkers(type: 'qolor')[8].getBufferRange()
