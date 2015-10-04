@@ -64,6 +64,7 @@ class QolorView extends HTMLElement
 
         # TODO: maybe abstract out different decorators
         # one for is table one for aliases for example instead of if else..
+        # + ternary in marker point code...
         decorate = (token, lineNum, tokenPos, isTable=false) =>
             tokenValue = token.value.trim().toLowerCase()
             originalTokenLength = token.value.length
@@ -83,8 +84,10 @@ class QolorView extends HTMLElement
 
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
-                new Point(lineNum, tokenPos + 1),
-                new Point(lineNum, tokenPos + originalTokenLength - 1)),
+                new Point(lineNum, tokenPos +
+                    (if isTable then 1 else 0)),
+                new Point(lineNum, tokenPos +
+                    originalTokenLength - (if isTable then 1 else 0))),
                 type: 'qolor'
 
             @markers.push marker
