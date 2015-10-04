@@ -3,7 +3,8 @@ md5 = require 'md5'
 
 class QolorView extends HTMLElement
     # Private
-    markers: []
+    markersForEditor: {} # store pointers again per editor
+    markers: [] # store all references too, why not.
 
     aliases: {}
 
@@ -19,18 +20,25 @@ class QolorView extends HTMLElement
             @update editor # for spec tests and initial load for example
 
     # Private
-    clearMarkers: ->
+    clearAllMarkers: ->
         for marker in @markers
             marker.destroy()
+
+    clearMarkers: (editor) ->
+        if @markersForEditor[editor.id]
+            for marker in @markersForEditor[editor.id]
+                marker.destroy()
 
     # Public
     destroy: ->
         @subscriptions?.dispose()
-        @clearMarkers()
+        @clearAllMarkers()
 
     # Private
     update: (editor) ->
-        @clearMarkers()
+        @clearMarkers(editor)
+        @markersForEditor[editor.id] = []
+
         grammar = editor.getGrammar()
         unless grammar.name == 'SQL'
             return
@@ -96,6 +104,7 @@ class QolorView extends HTMLElement
                 type: 'qolor'
 
             @markers.push marker
+            @markersForEditor[editor.id].push marker
 
             decoration = editor.decorateMarker marker,
                 type: 'highlight'
