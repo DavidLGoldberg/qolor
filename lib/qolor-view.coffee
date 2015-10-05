@@ -98,7 +98,7 @@ class QolorView extends HTMLElement
             # +1 -1 handle extra spaces.
             marker = editor.markBufferRange new Range(
                 new Point(lineNum, tokenPos +
-                    (if isTable then 1 else 0)),
+                    (if isTable then originalTokenLength - tokenValue.length - 1 else 0)),
                 new Point(lineNum, tokenPos +
                     originalTokenLength - (if isTable then 1 else 0))),
                 type: 'qolor'
