@@ -4,3 +4,10 @@ SeLeCt * FROM test2 t2 where t2.foo='foo'
 
 -- JOIN STATEMENTS:
 join person p on p.id = t1.id JOIN foo f on f.id=p.id
+
+-- NEW LINES, SPACING:
+select
+    *
+from
+    newlines n
+where n.foo    =     f.foo

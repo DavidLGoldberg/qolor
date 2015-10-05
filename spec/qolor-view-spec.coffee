@@ -37,6 +37,13 @@ describe "QolorView", ->
             expect(name.end.row).toBe 2
             expect(name.end.column).toBe 22
 
+        it 'has marker on "newlines n"', ->
+            name = editor.findMarkers(type: 'qolor')[9].getBufferRange()
+            expect(name.start.row).toBe 11
+            expect(name.start.column).toBe 4
+            expect(name.end.row).toBe 11
+            expect(name.end.column).toBe 14
+
     describe 'join statement', ->
         it 'has marker on "person p"', ->
             name = editor.findMarkers(type: 'qolor')[3].getBufferRange()
@@ -88,3 +95,17 @@ describe "QolorView", ->
             expect(name.start.column).toBe 49
             expect(name.end.row).toBe 5
             expect(name.end.column).toBe 50
+
+        it 'has marker for alias (lhs) "n"', ->
+            name = editor.findMarkers(type: 'qolor')[10].getBufferRange()
+            expect(name.start.row).toBe 12
+            expect(name.start.column).toBe 6
+            expect(name.end.row).toBe 12
+            expect(name.end.column).toBe 7
+
+        it 'has marker for alias (rhs) "f"', ->
+            name = editor.findMarkers(type: 'qolor')[11].getBufferRange()
+            expect(name.start.row).toBe 12
+            expect(name.start.column).toBe 21
+            expect(name.end.row).toBe 12
+            expect(name.end.column).toBe 22
