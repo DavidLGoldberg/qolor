@@ -40,7 +40,7 @@ class QolorView extends HTMLElement
         @markersForEditor[editor.id] = []
 
         grammar = editor.getGrammar()
-        unless grammar.name == 'SQL'
+        unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
             return
 
         text = editor.getText()
