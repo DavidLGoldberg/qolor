@@ -50,12 +50,7 @@ class QolorView extends HTMLElement
             "qolor-name-#{name}"
 
         getColor = (name) ->
-            output = (parseInt(md5(name), 16) %% 0xffffff).toString(16)
-
-            if output.length < 6      # TODO: There is probably a cleaner way.
-                output = output + '0' # But functional for now.
-
-            return output
+            md5(name)[..5]
 
         # Technique inspired from @olmokramer
         # https://github.com/olmokramer/atom-block-cursor/blob/master/lib/block-cursor.js
