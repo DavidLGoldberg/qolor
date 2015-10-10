@@ -117,7 +117,7 @@ class QolorView extends HTMLElement
             if "constant.other.database-name.sql" in token.scopes
                 decorateAlias token, lineNum, tokenPos
             else
-                [undefined, undefined]
+                [null, null]
 
         traverser = (methods) =>
             tokenizedLines = grammar.tokenizeLines(text)
@@ -127,8 +127,6 @@ class QolorView extends HTMLElement
                     for token in line
                         [marker, className] = method token, lineNum, tokenPos
                         tokenPos += token.value.length
-
-                        console.log token.value
 
                         if not marker
                             continue
