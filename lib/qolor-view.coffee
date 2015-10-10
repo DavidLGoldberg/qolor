@@ -77,7 +77,12 @@ class QolorView extends HTMLElement
             matches = tokenValue.match /(\s*)(.*)/
 
             [tableName, ..., alias] = matches[2].trim().split ' '
-            @aliases[alias] = tableName
+            hasAlias = true
+            if alias.match /.*\(.*\).*/
+                # insert into statement for example
+                hasAlias = false
+            else # is a regular alias
+                @aliases[alias] = tableName
             className = getClass tableName
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
@@ -85,7 +90,9 @@ class QolorView extends HTMLElement
             return [(editor.markBufferRange new Range(
                 new Point(lineNum, tokenPos + matches[1].length),
                 new Point(lineNum, tokenPos + matches[1].length +
-                    matches[2].trim().length)),
+                    (if hasAlias
+                    then matches[2].trim().length
+                    else tableName.length))),
                 type: 'qolor')
                 , className]
 
