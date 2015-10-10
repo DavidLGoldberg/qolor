@@ -71,21 +71,20 @@ class QolorView extends HTMLElement
                 styleNode = null
 
         decorateTable = (token, lineNum, tokenPos) =>
-            tokenValue = token.value.trim().toLowerCase()
-            originalTokenLength = token.value.length
+            tokenValue = token.value.toLowerCase()
 
-            [tableName, ..., alias] = tokenValue.split ' '
+            # capture first and 2nd groups for lengths of padding
+            matches = tokenValue.match /(\s*)(.*)/
+
+            [tableName, ..., alias] = matches[2].trim().split ' '
             @aliases[alias] = tableName
             className = getClass tableName
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
 
             return [(editor.markBufferRange new Range(
-                # +1 -1 handle extra spaces.
-                new Point(lineNum, tokenPos +
-                    originalTokenLength - tokenValue.length - 1),
-                new Point(lineNum, tokenPos +
-                    originalTokenLength - 1)),
+                new Point(lineNum, (tokenPos + matches[1].length)),
+                new Point(lineNum, (tokenPos + matches[1].length + matches[2].trim().length))),
                 type: 'qolor')
                 , className]
 

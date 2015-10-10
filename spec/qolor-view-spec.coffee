@@ -49,7 +49,7 @@ describe "QolorView", ->
             expect(name.start.row).toBe 13
             expect(name.start.column).toBe 4
             expect(name.end.row).toBe 13
-            expect(name.end.column).toBe 16
+            expect(name.end.column).toBe 17
 
     describe 'join statement', ->
         it 'has marker @ "person p"', ->
