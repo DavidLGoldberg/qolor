@@ -83,8 +83,9 @@ class QolorView extends HTMLElement
             @subscriptions.add addStyle(tableName, className, color)
 
             return [(editor.markBufferRange new Range(
-                new Point(lineNum, (tokenPos + matches[1].length)),
-                new Point(lineNum, (tokenPos + matches[1].length + matches[2].trim().length))),
+                new Point(lineNum, tokenPos + matches[1].length),
+                new Point(lineNum, tokenPos + matches[1].length +
+                    matches[2].trim().length)),
                 type: 'qolor')
                 , className]
 
