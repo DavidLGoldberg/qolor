@@ -95,7 +95,7 @@ class QolorView extends HTMLElement
             originalTokenLength = token.value.length
 
             if !@aliases[tokenValue] # only if it's a bogus alias...
-                return
+                return [null, null]
 
             className = getClass @aliases[tokenValue]
 
@@ -111,7 +111,10 @@ class QolorView extends HTMLElement
                 decorateNext = false
                 decorateTable token, lineNum, tokenPos, true
             else # *slightly* more optimal
-                decorateNext = token.value.toLowerCase() in ['from', 'join']
+                # following handles various types of joins ie:
+                # 'join', 'left join' etc.
+                decorateNext = token.value.toLowerCase()
+                    .split(' ')[-1..][0] in ['from', 'join']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
             if "constant.other.database-name.sql" in token.scopes
