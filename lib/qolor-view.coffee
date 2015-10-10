@@ -114,7 +114,7 @@ class QolorView extends HTMLElement
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
                 decorateNext = token.value.toLowerCase()
-                    .split(' ')[-1..][0] in ['from', 'join']
+                    .split(' ')[-1..][0] in ['from', 'join', 'into']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
             if "constant.other.database-name.sql" in token.scopes

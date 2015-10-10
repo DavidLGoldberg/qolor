@@ -51,6 +51,14 @@ describe "QolorView", ->
             expect(name.end.row).toBe 13
             expect(name.end.column).toBe 17
 
+    describe 'insert into statement', ->
+        it 'has marker @ "insert_table"', ->
+            name = editor.findMarkers(type: 'qolor')[13].getBufferRange()
+            expect(name.start.row).toBe 18
+            expect(name.start.column).toBe 12
+            expect(name.end.row).toBe 18
+            expect(name.end.column).toBe 24
+
     describe 'join statement', ->
         it 'has marker @ "person p"', ->
             name = editor.findMarkers(type: 'qolor')[4].getBufferRange()

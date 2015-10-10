@@ -14,3 +14,6 @@ from
     newlines    n
 where
     n.foo    =     f.foo
+
+-- INSERT INTO STATEMENTS:
+insert into insert_table values (0,1)
