@@ -74,7 +74,7 @@ class QolorView extends HTMLElement
             tokenValue = token.value.trim().toLowerCase()
             originalTokenLength = token.value.length
 
-            [tableName, alias] = tokenValue.split ' '
+            [tableName, ..., alias] = tokenValue.split ' '
             @aliases[alias] = tableName
             className = getClass tableName
             color = getColor tableName
