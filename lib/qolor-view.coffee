@@ -116,7 +116,7 @@ class QolorView extends HTMLElement
         tablesTraverser = (token, lineNum, tokenPos) ->
             if decorateNext
                 decorateNext = false
-                decorateTable token, lineNum, tokenPos, true
+                decorateTable token, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
@@ -124,7 +124,7 @@ class QolorView extends HTMLElement
                     .split(' ')[-1..][0] in ['from', 'join', 'into']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
-            if "constant.other.database-name.sql" in token.scopes
+            if 'constant.other.database-name.sql' in token.scopes
                 decorateAlias token, lineNum, tokenPos
             else
                 [null, null]
