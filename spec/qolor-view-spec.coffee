@@ -51,6 +51,13 @@ describe "QolorView", ->
             expect(name.end.row).toBe 13
             expect(name.end.column).toBe 17
 
+        it 'has marker @ "schemas s"', ->
+            name = editor.findMarkers(type: 'qolor')[15].getBufferRange()
+            expect(name.start.row).toBe 22
+            expect(name.start.column).toBe 14
+            expect(name.end.row).toBe 22
+            expect(name.end.column).toBe 27
+
     describe 'insert into statement', ->
         it 'has marker @ "insert_table"', ->
             name = editor.findMarkers(type: 'qolor')[13].getBufferRange()

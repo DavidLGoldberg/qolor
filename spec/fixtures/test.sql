@@ -18,3 +18,6 @@ where
 -- INSERT INTO STATEMENTS:
 insert into insert_table values (0,1)
 insert into insert_table2 (je_number,gl_entity_id,created_by)
+
+-- HANDLE SCHEMAS:
+select * from dbo.schemas s
