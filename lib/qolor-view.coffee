@@ -71,10 +71,8 @@ class QolorView extends HTMLElement
                 styleNode = null
 
         decorateTable = (token, lineNum, tokenPos) =>
-            tokenValue = token.value.toLowerCase()
-
             # capture first and 2nd groups for lengths of padding
-            matches = tokenValue.match /(\s*)(.*)/
+            matches = token.value.toLowerCase().match /(\s*)(.*)/
 
             [tableName, ..., alias] = matches[2].trim().split ' '
             hasAlias = true
