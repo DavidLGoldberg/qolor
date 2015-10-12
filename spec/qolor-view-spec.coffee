@@ -51,12 +51,19 @@ describe "QolorView", ->
             expect(name.end.row).toBe 13
             expect(name.end.column).toBe 17
 
-    describe 'from statement with schemas', ->
-        it 'has marker @ "tables t"', ->
+        it 'has marker @ "[test_brackets] b"', ->
             name = editor.findMarkers(type: 'qolor')[15].getBufferRange()
             expect(name.start.row).toBe 22
-            expect(name.start.column).toBe 22
+            expect(name.start.column).toBe 15
             expect(name.end.row).toBe 22
+            expect(name.end.column).toBe 28
+
+    describe 'from statement with schemas', ->
+        it 'has marker @ "tables t"', ->
+            name = editor.findMarkers(type: 'qolor')[16].getBufferRange()
+            expect(name.start.row).toBe 25
+            expect(name.start.column).toBe 22
+            expect(name.end.row).toBe 25
             expect(name.end.column).toBe 29
 
     describe 'insert into statement', ->
