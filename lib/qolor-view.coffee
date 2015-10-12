@@ -70,6 +70,8 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
+        # TODO: Separate conditionals out of function that is supposed to just
+        # decorate.  Single responsibliity...
         decorateTable = (token, lineNum, tokenPos) =>
             # capture first and 2nd groups for lengths of padding
             matches = token.value.toLowerCase().match /(\s*)(.*)/
