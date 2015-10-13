@@ -73,26 +73,43 @@ class QolorView extends HTMLElement
         # TODO: Separate conditionals out of function that is supposed to just
         # decorate.  Single responsibliity...
         decorateTable = (token, lineNum, tokenPos) =>
-            # capture first and 2nd groups for lengths of padding
-            matches = token.value.toLowerCase().match /(\s*)(.*)/
+            tokenValue = token.value.toLowerCase()
 
-            [tableName, ..., alias] = matches[2].trim().split ' '
-            hasAlias = true
+            if tokenValue.includes '['
+                hasBrackets = true
+                matches = tokenValue.match /^(\s*)\[(\S*)\](\s*)(\S*)(\s*)$/
+            else # no brackets
+                matches = tokenValue.match /^(\s*)(\S*)(\s*)(\S*)(\s*)$/
+
+            [leading, tableName, middle, alias, trailing] = matches[1..5]
+
+            # console.table [{
+            #     leading: "#{leading}",
+            #     tableName: "#{tableName}",
+            #     middle: "#{middle}",
+            #     alias: "#{alias}",
+            #     trailing: "#{trailing}"
+            # }]
+
             if alias.match /.*\(.*\).*/
                 # insert into statement for example
-                hasAlias = false
+                alias = "" # wasnt' really an alias! TODO: confirm?
             else # is a regular alias
                 @aliases[alias] = tableName
+
             className = getClass tableName
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
 
-            return [(editor.markBufferRange new Range(
-                new Point(lineNum, tokenPos + matches[1].length),
-                new Point(lineNum, tokenPos + matches[1].length +
-                    (if hasAlias
-                    then matches[2].trim().length
-                    else tableName.length))),
+            start = new Point lineNum, tokenPos + leading.length +
+                (if hasBrackets then 1 else 0)
+            finish = new Point lineNum, tokenPos + leading.length +
+                tableName.length +
+                (if alias then middle.length + alias.length else 0) +
+                (if hasBrackets then -1 else 0)
+                # trailing.length: (don't need it thus far)
+
+            return [(editor.markBufferRange new Range(start, finish),
                 type: 'qolor')
                 , className]
 
