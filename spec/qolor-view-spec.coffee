@@ -30,28 +30,28 @@ describe "QolorView", ->
             expect(name.end.row).toBe 1
             expect(name.end.column).toBe 22
 
-        it 'has marker @ "test2 t2"', ->
+        it 'has marker @ "test2 t2" despite casing', ->
             name = editor.findMarkers(type: 'qolor')[1].getBufferRange()
             expect(name.start.row).toBe 2
             expect(name.start.column).toBe 14
             expect(name.end.row).toBe 2
             expect(name.end.column).toBe 22
 
-        it 'has marker @ "test3 t3"', ->
+        it 'has marker @ "test3 t3" despite no trailing space', ->
             name = editor.findMarkers(type: 'qolor')[3].getBufferRange()
             expect(name.start.row).toBe 4
             expect(name.start.column).toBe 14
             expect(name.end.row).toBe 4
             expect(name.end.column).toBe 22
 
-        it 'has marker @ "newlines n"', ->
+        it 'has marker @ "newlines n" despite whitespace', ->
             name = editor.findMarkers(type: 'qolor')[10].getBufferRange()
             expect(name.start.row).toBe 13
             expect(name.start.column).toBe 4
             expect(name.end.row).toBe 13
             expect(name.end.column).toBe 17
 
-        it 'has marker @ "[test_brackets] b"', ->
+        it 'has marker @ "[test_brackets] b" despite brackets', ->
             name = editor.findMarkers(type: 'qolor')[15].getBufferRange()
             expect(name.start.row).toBe 22
             expect(name.start.column).toBe 15
@@ -59,7 +59,7 @@ describe "QolorView", ->
             expect(name.end.column).toBe 28
 
     describe 'from statement with schemas', ->
-        it 'has marker @ "tables t"', ->
+        it 'has marker @ "tables t" despite schema', ->
             name = editor.findMarkers(type: 'qolor')[16].getBufferRange()
             expect(name.start.row).toBe 25
             expect(name.start.column).toBe 22
