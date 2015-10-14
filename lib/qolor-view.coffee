@@ -13,6 +13,8 @@ class QolorView extends HTMLElement
         @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
             disposable = editor.onDidStopChanging =>
+                @testMode = editor.buffer
+                    .file.path.endsWith 'qolor/spec/fixtures/test.sql'
                 @update editor
 
             editor.onDidDestroy -> disposable.dispose()
@@ -83,13 +85,14 @@ class QolorView extends HTMLElement
 
             [leading, tableName, middle, alias, trailing] = matches[1..5]
 
-            # console.table [{ # Useful for debugging:
-            #     leading: "#{leading}",
-            #     tableName: "#{tableName}",
-            #     middle: "#{middle}",
-            #     alias: "#{alias}",
-            #     trailing: "#{trailing}"
-            # }]
+            if @testMode
+                console.table [{ # Useful for debugging:
+                    leading: "#{leading}",
+                    tableName: "#{tableName}",
+                    middle: "#{middle}",
+                    alias: "#{alias}",
+                    trailing: "#{trailing}"
+                }]
 
             if alias.match /.*\(.*\).*/
                 # insert into statement for example
