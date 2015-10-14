@@ -21,128 +21,118 @@ describe "QolorView", ->
             grammar = atom.grammars.grammarForScopeName 'source.sql'
             editor.setGrammar(grammar)
 
+    markerCheck = (marker) ->
+        name = editor.findMarkers(type: 'qolor')[marker.index].getBufferRange()
+        expect(name.start.row).toBe marker.start.row
+        expect(name.start.column).toBe marker.start.column
+        expect(name.end.row).toBe marker.end.row
+        expect(name.end.column).toBe marker.end.column
+
     describe 'from statement', ->
         #TODO: Pull out findMarkers above?
         it 'has marker @ "test1 t1"', ->
-            name = editor.findMarkers(type: 'qolor')[0].getBufferRange()
-            expect(name.start.row).toBe 1
-            expect(name.start.column).toBe 14
-            expect(name.end.row).toBe 1
-            expect(name.end.column).toBe 22
+            markerCheck
+                index: 0
+                start: { row: 1, column: 14 }
+                end:   { row: 1, column: 22 }
 
         it 'has marker @ "test2 t2" despite casing', ->
-            name = editor.findMarkers(type: 'qolor')[1].getBufferRange()
-            expect(name.start.row).toBe 2
-            expect(name.start.column).toBe 14
-            expect(name.end.row).toBe 2
-            expect(name.end.column).toBe 22
+            markerCheck
+                index: 1
+                start: { row: 2, column: 14 }
+                end:   { row: 2, column: 22 }
 
         it 'has marker @ "test3 t3" despite no trailing space', ->
-            name = editor.findMarkers(type: 'qolor')[3].getBufferRange()
-            expect(name.start.row).toBe 4
-            expect(name.start.column).toBe 14
-            expect(name.end.row).toBe 4
-            expect(name.end.column).toBe 22
+            markerCheck
+                index: 3
+                start: { row: 4, column: 14 }
+                end:   { row: 4, column: 22 }
 
         it 'has marker @ "newlines n" despite whitespace', ->
-            name = editor.findMarkers(type: 'qolor')[10].getBufferRange()
-            expect(name.start.row).toBe 13
-            expect(name.start.column).toBe 4
-            expect(name.end.row).toBe 13
-            expect(name.end.column).toBe 17
+            markerCheck
+                index: 10
+                start: { row: 13, column: 4 }
+                end:   { row: 13, column: 17 }
 
         it 'has marker @ "[test_brackets] b" despite brackets', ->
-            name = editor.findMarkers(type: 'qolor')[15].getBufferRange()
-            expect(name.start.row).toBe 22
-            expect(name.start.column).toBe 15
-            expect(name.end.row).toBe 22
-            expect(name.end.column).toBe 28
+            markerCheck
+                index: 15
+                start: { row: 22, column: 15 }
+                end:   { row: 22, column: 28 }
 
     describe 'from statement with schemas', ->
         it 'has marker @ "tables t" despite schema', ->
-            name = editor.findMarkers(type: 'qolor')[16].getBufferRange()
-            expect(name.start.row).toBe 25
-            expect(name.start.column).toBe 22
-            expect(name.end.row).toBe 25
-            expect(name.end.column).toBe 29
+            markerCheck
+                index: 16
+                start: { row: 25, column: 22 }
+                end:   { row: 25, column: 29 }
 
     describe 'insert into statement', ->
         it 'has marker @ "insert_table"', ->
-            name = editor.findMarkers(type: 'qolor')[13].getBufferRange()
-            expect(name.start.row).toBe 18
-            expect(name.start.column).toBe 12
-            expect(name.end.row).toBe 18
-            expect(name.end.column).toBe 24
+            markerCheck
+                index: 13
+                start: { row: 18, column: 12 }
+                end:   { row: 18, column: 24 }
+
         it 'has marker @ "insert_table2"', ->
-            name = editor.findMarkers(type: 'qolor')[14].getBufferRange()
-            expect(name.start.row).toBe 19
-            expect(name.start.column).toBe 12
-            expect(name.end.row).toBe 19
-            expect(name.end.column).toBe 25
+            markerCheck
+                index: 14
+                start: { row: 19, column: 12 }
+                end:   { row: 19, column: 25 }
 
     describe 'join statement', ->
         it 'has marker @ "person p"', ->
-            name = editor.findMarkers(type: 'qolor')[4].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 10
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 18
+            markerCheck
+                index: 4
+                start: { row: 7, column: 10 }
+                end:   { row: 7, column: 18 }
 
         it 'has marker @ "foo f"', ->
-            name = editor.findMarkers(type: 'qolor')[7].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 40
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 45
+            markerCheck
+                index: 7
+                start: { row: 7, column: 40 }
+                end:   { row: 7, column: 45 }
 
     describe 'alias in where clause', ->
-        #TODO: Refactor to just use points.  Variables are error prone.
         it 'has marker for alias (lhs) "t2"', ->
-            name = editor.findMarkers(type: 'qolor')[2].getBufferRange()
-            expect(name.start.row).toBe 2
-            expect(name.start.column).toBe 29
-            expect(name.end.row).toBe 2
-            expect(name.end.column).toBe 31
+            markerCheck
+                index: 2
+                start: { row: 2, column: 29 }
+                end:   { row: 2, column: 31 }
 
     describe 'on statement', ->
         it 'has marker for alias (lhs) "p"', ->
-            name = editor.findMarkers(type: 'qolor')[5].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 22
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 23
+            markerCheck
+                index: 5
+                start: { row: 7, column: 22 }
+                end:   { row: 7, column: 23 }
 
         it 'has marker for alias (rhs) "t1"', ->
-            name = editor.findMarkers(type: 'qolor')[6].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 29
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 31
+            markerCheck
+                index: 6
+                start: { row: 7, column: 29 }
+                end:   { row: 7, column: 31 }
 
         it 'has marker for alias (lhs) "f"', ->
-            name = editor.findMarkers(type: 'qolor')[8].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 49
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 50
+            markerCheck
+                index: 8
+                start: { row: 7, column: 49 }
+                end:   { row: 7, column: 50 }
 
         it 'has marker for alias (rhs) "p"', ->
-            name = editor.findMarkers(type: 'qolor')[9].getBufferRange()
-            expect(name.start.row).toBe 7
-            expect(name.start.column).toBe 54
-            expect(name.end.row).toBe 7
-            expect(name.end.column).toBe 55
+            markerCheck
+                index: 9
+                start: { row: 7, column: 54 }
+                end:   { row: 7, column: 55 }
 
         it 'has marker for alias (lhs) "n"', ->
-            name = editor.findMarkers(type: 'qolor')[11].getBufferRange()
-            expect(name.start.row).toBe 15
-            expect(name.start.column).toBe 4
-            expect(name.end.row).toBe 15
-            expect(name.end.column).toBe 5
+            markerCheck
+                index: 11
+                start: { row: 15, column: 4 }
+                end:   { row: 15, column: 5 }
 
         it 'has marker for alias (rhs) "f"', ->
-            name = editor.findMarkers(type: 'qolor')[12].getBufferRange()
-            expect(name.start.row).toBe 15
-            expect(name.start.column).toBe 19
-            expect(name.end.row).toBe 15
-            expect(name.end.column).toBe 20
+            markerCheck
+                index: 12
+                start: { row: 15, column: 19 }
+                end:   { row: 15, column: 20 }
