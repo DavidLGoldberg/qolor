@@ -83,7 +83,7 @@ class QolorView extends HTMLElement
 
             [leading, tableName, middle, alias, trailing] = matches[1..5]
 
-            # console.table [{
+            # console.table [{ # Useful for debugging:
             #     leading: "#{leading}",
             #     tableName: "#{tableName}",
             #     middle: "#{middle}",
