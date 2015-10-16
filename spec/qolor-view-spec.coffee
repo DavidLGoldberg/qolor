@@ -60,12 +60,19 @@ describe "QolorView", ->
                 start: { row: 22, column: 15 }
                 end:   { row: 22, column: 28 }
 
+        it 'has marker @ "defined_later d" despite being defined after
+            its alias appears first ', ->
+            markerCheck
+                index: 17
+                start: { row: 25, column: 18 }
+                end:   { row: 25, column: 33 }
+
     describe 'from statement with schemas', ->
         it 'has marker @ "tables t" despite schema', ->
             markerCheck
-                index: 16
-                start: { row: 25, column: 22 }
-                end:   { row: 25, column: 29 }
+                index: 18
+                start: { row: 28, column: 22 }
+                end:   { row: 28, column: 29 }
 
     describe 'insert into statement', ->
         it 'has marker @ "insert_table"', ->
@@ -136,3 +143,9 @@ describe "QolorView", ->
                 index: 12
                 start: { row: 15, column: 19 }
                 end:   { row: 15, column: 20 }
+
+        it 'has marker for alias "d" despite appearing before defined', ->
+            markerCheck
+                index: 16
+                start: { row: 25, column: 7 }
+                end:   { row: 25, column: 8 }

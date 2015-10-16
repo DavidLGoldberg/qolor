@@ -22,5 +22,8 @@ insert into insert_table2 (je_number,gl_entity_id,created_by)
 -- HANDLE BRACKETS:
 select * from [test_brackets] b
 
+-- HANDLE ALIAS BEFORE DEFINED
+select d.foo from defined_later d
+
 -- HANDLE SCHEMAS:
 select * from schemas.table t

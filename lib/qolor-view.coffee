@@ -26,6 +26,7 @@ class QolorView extends HTMLElement
         for marker in @markers
             marker.destroy()
 
+    # Private
     clearMarkers: (editor) ->
         if @markersForEditor[editor.id]
             for marker in @markersForEditor[editor.id]
