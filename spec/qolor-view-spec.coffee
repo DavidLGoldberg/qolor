@@ -70,9 +70,23 @@ describe "QolorView", ->
     describe 'from statement with schemas', ->
         it 'has marker @ "tables t" despite schema', ->
             markerCheck
-                index: 18
-                start: { row: 28, column: 22 }
-                end:   { row: 28, column: 29 }
+                index: 20
+                start: { row: 32, column: 22 }
+                end:   { row: 32, column: 29 }
+
+    describe 'from statement with temp table', ->
+        it 'has marker @ "tables t" despite schema', ->
+            markerCheck
+                index: 20
+                start: { row: 29, column: 14 }
+                end:   { row: 29, column: 18 }
+
+    describe 'into statement with temp table', ->
+        it 'has marker @ "tables t" despite schema', ->
+            markerCheck
+                index: 19
+                start: { row: 28, column: 14 }
+                end:   { row: 28, column: 18 }
 
     describe 'insert into statement', ->
         it 'has marker @ "insert_table"', ->

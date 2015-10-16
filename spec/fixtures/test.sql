@@ -25,5 +25,9 @@ select * from [test_brackets] b
 -- HANDLE ALIAS BEFORE DEFINED
 select d.foo from defined_later d
 
+-- HANDLE TEMP TABLES
+select * into #foo
+select * from #foo
+
 -- HANDLE SCHEMAS:
 select * from schemas.table t
