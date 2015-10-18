@@ -3,7 +3,7 @@ QolorView = require '../lib/qolor-view'
 path = require 'path'
 
 describe "QolorView", ->
-    [workspaceElement, editor, element, grammar] = []
+    [editor] = []
 
     beforeEach ->
         atom.project.setPaths([path.join(__dirname, 'fixtures')])
@@ -14,7 +14,6 @@ describe "QolorView", ->
 
         runs ->
             editor = atom.workspace.getActiveTextEditor()
-            element = atom.views.getView(editor)
             grammar = atom.grammars.grammarForScopeName 'source.sql'
             editor.setGrammar(grammar)
 
