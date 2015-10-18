@@ -8,9 +8,6 @@ describe "QolorView", ->
     beforeEach ->
         atom.project.setPaths([path.join(__dirname, 'fixtures')])
 
-        workspaceElement = atom.views.getView atom.workspace # Remove?
-        jasmine.attachToDOM workspaceElement # Remove?
-
         waitsForPromise -> atom.workspace.open 'test.sql'
         waitsForPromise -> atom.packages.activatePackage 'language-sql'
         waitsForPromise -> atom.packages.activatePackage 'qolor'
