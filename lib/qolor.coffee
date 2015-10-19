@@ -1,3 +1,4 @@
+{CompositeDisposable} = require 'atom'
 QolorView = require './qolor-view'
 
 class Qolor
@@ -14,9 +15,14 @@ class Qolor
         @view = new QolorView
         @view.initialize()
 
+        @commands = new CompositeDisposable
+
+        @commands.add atom.commands.add 'atom-workspace',
+            'qolor:toggle': => @view.toggle()
+
     # Public: Deactivates the package.
     deactivate: ->
-        # @subscriptions.dispose()
+        @commands?.dispose()
         @view?.destroy()
         @view = null
 

@@ -5,18 +5,19 @@ class QolorView extends HTMLElement
     # Private
     markersForEditor: {} # store pointers again per editor
     markers: [] # store all references too, why not.
-
     aliases: {}
+
+    subscriptions: new CompositeDisposable
 
     # Public
     initialize: () ->
-        @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
             disposable = editor.onDidStopChanging =>
-                @testMode = editor.buffer
+                @testMode = editor.buffer # set if any of the editors have it :\
                     .file.path.endsWith 'qolor/spec/fixtures/test.sql'
                 @update editor
 
+            @subscriptions.add disposable
             editor.onDidDestroy -> disposable.dispose()
 
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
@@ -28,17 +29,30 @@ class QolorView extends HTMLElement
     clearAllMarkers: ->
         for marker in @markers
             marker.destroy()
+        @markers = []
 
     # Private
     clearMarkers: (editor) ->
         if @markersForEditor[editor.id]
             for marker in @markersForEditor[editor.id]
                 marker.destroy()
+            @markersForEditor[editor.id] = []
+
+    # Private
+    turnOff: ->
+        @clearAllMarkers()
+        @subscriptions?.dispose()
 
     # Public
     destroy: ->
-        @subscriptions?.dispose()
-        @clearAllMarkers()
+        @turnOff() # destroys most things
+
+    # Public
+    toggle: ->
+        if @markers.length
+            @turnOff()
+        else
+            @initialize()
 
     # Private
     update: (editor) ->

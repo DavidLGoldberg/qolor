@@ -164,3 +164,5 @@ describe "QolorView", ->
                 index: 16
                 start: { row: 25, column: 7 }
                 end:   { row: 25, column: 8 }
+
+    #TODO: Add test for toggle.
