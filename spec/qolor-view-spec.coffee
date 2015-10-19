@@ -53,8 +53,8 @@ describe "QolorView", ->
         it 'has marker @ "[test_brackets] b" despite brackets', ->
             markerCheck
                 index: 15
-                start: { row: 22, column: 15 }
-                end:   { row: 22, column: 28 }
+                start: { row: 22, column: 14 }
+                end:   { row: 22, column: 31 }
 
         it 'has marker @ "defined_later d" despite being defined after
             its alias appears first ', ->

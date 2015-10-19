@@ -106,12 +106,11 @@ class QolorView extends HTMLElement
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
 
-            start = new Point lineNum, tokenPos + leading.length +
-                (if hasBrackets then 1 else 0)
+            start = new Point lineNum, tokenPos + leading.length
             finish = new Point lineNum, tokenPos + leading.length +
                 tableName.length +
                 (if alias then middle.length + alias.length else 0) +
-                (if hasBrackets then -1 else 0)
+                (if hasBrackets then 2 else 0)
                 # trailing.length: (don't need it thus far)
 
             return [(editor.markBufferRange new Range(start, finish),
