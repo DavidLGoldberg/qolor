@@ -19,6 +19,9 @@ class QolorView extends HTMLElement
 
             editor.onDidDestroy -> disposable.dispose()
 
+            @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
+                @update editor
+
             @update editor # for spec tests and initial load for example
 
     # Private
@@ -61,9 +64,16 @@ class QolorView extends HTMLElement
         addStyle = (name, className, color) ->
             styleNode = document.createElement 'style'
             styleNode.type = 'text/css'
+            borderStyle = "border-bottom: 4px solid ##{color};"
+            if atom.config.get 'qolor.fourBorders'
+                borderStyle = "border: 2px solid ##{color};"
             styleNode.innerHTML = """
                 .highlight.#{className} .region {
-                    border-bottom: 4px solid ##{color};
+                    /* reset the values: */
+                    border: none;
+                    border-bottom: none;
+                    /* apply new one: */
+                    #{borderStyle}
                 }
             """
             editorView.stylesElement.appendChild styleNode
