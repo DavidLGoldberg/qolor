@@ -137,12 +137,16 @@ class QolorView extends HTMLElement
         decorateNext = false # used by tables tables, aliases.
         tablesTraverser = (token, lineNum, tokenPos) ->
             if decorateNext
-                decorateNext = false
-                decorateTable token, lineNum, tokenPos
+                tokenValue = token.value.trim()
+                if tokenValue in ['', '#']
+                    return [null, null]
+                else
+                    decorateNext = false
+                    decorateTable token, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
-                decorateNext = token.value.toLowerCase()
+                decorateNext = token.value.trim().toLowerCase()
                     .split(' ')[-1..][0] in ['from', 'join', 'into']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
