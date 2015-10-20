@@ -85,9 +85,7 @@ class QolorView extends HTMLElement
 
         # TODO: Separate conditionals out of function that is supposed to just
         # decorate.  Single responsibliity...
-        decorateTable = (token, lineNum, tokenPos) =>
-            tokenValue = token.value.toLowerCase()
-
+        decorateTable = (tokenValue, lineNum, tokenPos) =>
             if tokenValue.includes '['
                 hasBrackets = true
                 matches = tokenValue.match /^(\s*)\[(\S*)\](\s*)(\S*)(\s*)$/
@@ -144,14 +142,22 @@ class QolorView extends HTMLElement
                 , className]
 
         decorateNext = false # used by tables tables, aliases.
+        part1 = ''
         tablesTraverser = (token, lineNum, tokenPos) ->
             if decorateNext
                 tokenValue = token.value.trim()
-                if tokenValue in ['', '#']
+                if tokenValue in ['', '#', '.']
+                    return [null, null]
+                else if 'constant.other.database-name.sql' in token.scopes
+                    part1 = tokenValue
                     return [null, null]
                 else
                     decorateNext = false
-                    decorateTable token, lineNum, tokenPos
+                    tokenValue = token.value.toLowerCase()
+                    if part1
+                        tokenValue = part1 + tokenValue
+                        part1 = '' # clear for next time.
+                    decorateTable tokenValue, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
