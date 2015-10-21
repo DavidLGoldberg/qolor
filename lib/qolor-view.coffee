@@ -144,8 +144,8 @@ class QolorView extends HTMLElement
         decorateNext = false # used by tables tables, aliases.
         part1 = ''
         tablesTraverser = (token, lineNum, tokenPos) ->
+            tokenValue = token.value.trim().toLowerCase()
             if decorateNext
-                tokenValue = token.value.trim()
                 if tokenValue in ['', '#', '.']
                     return [null, null]
                 else if 'constant.other.database-name.sql' in token.scopes
@@ -153,7 +153,7 @@ class QolorView extends HTMLElement
                     return [null, null]
                 else
                     decorateNext = false
-                    tokenValue = token.value.toLowerCase()
+                    tokenValue = token.value.toLowerCase() # not trimmed
                     if part1
                         tokenValue = part1 + tokenValue
                         part1 = '' # clear for next time.
@@ -161,7 +161,7 @@ class QolorView extends HTMLElement
             else # *slightly* more optimal
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
-                decorateNext = token.value.trim().toLowerCase()
+                decorateNext = tokenValue
                     .split(' ')[-1..][0] in ['from', 'join', 'into']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
