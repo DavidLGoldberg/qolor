@@ -30,4 +30,4 @@ select * from #temp2
 select * into #temp1 tmp1
 
 -- HANDLE SCHEMAS:
-select * from schemas.table t
+select tab.field from mySchema.myTable tab

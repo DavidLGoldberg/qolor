@@ -66,9 +66,14 @@ describe "QolorView", ->
     describe 'from statement with schemas', ->
         it 'has marker @ "tables t" despite schema', ->
             markerCheck
+                index: 21
+                start: { row: 32, column: 32 }
+                end:   { row: 32, column: 42 }
+        it 'has marker @ "tab" despite schema and defined after', ->
+            markerCheck
                 index: 20
-                start: { row: 32, column: 22 }
-                end:   { row: 32, column: 29 }
+                start: { row: 32, column: 8 }
+                end:   { row: 32, column: 10 }
 
     describe 'from statement with temp table', ->
         it 'has marker @ "tables t" despite schema', ->
