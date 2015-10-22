@@ -84,7 +84,7 @@ class QolorView extends HTMLElement
                 styleNode = null
 
         # TODO: Separate conditionals out of function that is supposed to just
-        # decorate.  Single responsibliity...
+        # decorate.  Single responsibliity... Break out the register of alias.
         decorateTable = (tokenValue, lineNum, tokenPos) =>
             if tokenValue.includes '['
                 hasBrackets = true
