@@ -149,6 +149,8 @@ class QolorView extends HTMLElement
                 if tokenValue in ['', '#', '.']
                     return [null, null]
                 else if 'constant.other.database-name.sql' in token.scopes
+                    return [null, null]
+                else if 'constant.other.table-name.sql' in token.scopes
                     part1 = tokenValue
                     return [null, null]
                 else
@@ -156,6 +158,7 @@ class QolorView extends HTMLElement
                     tokenValue = token.value.toLowerCase() # not trimmed
                     if part1
                         tokenValue = part1 + tokenValue
+                        tokenPos -= part1.length
                         part1 = '' # clear for next time.
                     decorateTable tokenValue, lineNum, tokenPos
             else # *slightly* more optimal

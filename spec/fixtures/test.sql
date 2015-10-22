@@ -26,8 +26,8 @@ select * from [test_brackets] b
 select d.foo from defined_later d
 
 -- HANDLE TEMP TABLES
-select * from #temp2
-select * into #temp1 tmp1
+select * from #temp1
+select * into #temp2 tmp2
 
 -- HANDLE SCHEMAS:
 select tab.field from mySchema.myTable tab
