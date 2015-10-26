@@ -7,10 +7,9 @@ class QolorView extends HTMLElement
     markers: [] # store all references too, why not.
     aliases: {}
 
-    subscriptions: new CompositeDisposable
-
     # Public
     initialize: () ->
+        @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
             disposable = editor.onDidStopChanging =>
                 @testMode = editor.buffer # set if any of the editors have it :\
