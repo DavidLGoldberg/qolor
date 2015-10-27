@@ -27,3 +27,16 @@ perhaps a marginal shift of the colors to play nicely with the themes.
 *   Jump to and from matching tables and aliases under cursor.
 
 *   List number of references in the status bar.
+
+## Prior Art
+
+todo..
+
+## How it works
+Qolor uses the language-sql grammar built into Atom.  It does a double pass once for the table names and another for the aliases.
+
+I don't know of any SQL parsers in node usable for this.
+
+The code is ugly.  The grammar for SQL suffices for syntax coloring, but it's tokens aren't always accurate.  I try to make a layer of rules on top.
+
+It should work for most cases, but please report any issues.
