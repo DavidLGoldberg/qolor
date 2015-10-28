@@ -32,7 +32,7 @@ perhaps a marginal shift of the colors to play nicely with the themes.
 
 I got the idea for Qolor one day while painfully hunting through the zig zag of aliases of a giant query.
 
-Later a friend pointed out that a lot of related work already exists.  Athough, I have yet to find one for that does this for SQL in this manner however.
+Later a friend pointed out that a lot of related work in the area of "semantic highligting" already exists.  I have yet to find one (have not done an exhaustive search) that does this semantic highlighting for SQL in this table to alias manner.  Let me know if another exists!
 
 Here are some links:
 __ TODO __
