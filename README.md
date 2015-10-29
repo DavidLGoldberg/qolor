@@ -45,3 +45,5 @@ I don't know of any SQL parsers in node usable for this.
 The code is ugly.  The grammar for SQL suffices for syntax coloring, but it's tokens aren't always accurate.  I try to make a layer of rules on top.
 
 It should work for most cases, but please report any issues.
+
+Performance should be mostly unaffected because the observing of the grammar utilizes a debounce and because well, computers are fast.
