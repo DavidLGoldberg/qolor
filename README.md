@@ -5,7 +5,7 @@
 Qolor applies semantic highlighting to your SQL queries by matching tables to
 their aliases using the same color.
 
-All colors of tables are deterministic from their table name.
+All colors of tables are deterministic and based on their name.
 They will be the same on any Atom editor anywhere!
 
 ## Installation
