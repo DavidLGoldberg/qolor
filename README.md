@@ -14,7 +14,7 @@ They will be the same on any Atom editor anywhere!
 
 ## Settings
 
-Two stylistic flavors.  Underline or a border box.
+Two stylistic flavors.  Underline or a border box.  Really more of a placeholder for now.  Hopefully this might facilitate a pull request etc.
 
 ## TODO
 
@@ -23,6 +23,7 @@ Two stylistic flavors.  Underline or a border box.
 *   Better handling of colors.  Possibly hue blending etc.  Leverage theme
 information.  I still want these to be deterministic but for example,
 perhaps a marginal shift of the colors to play nicely with the themes.
+Pull requests?
 
 *   Jump to and from matching tables and aliases under cursor.
 
