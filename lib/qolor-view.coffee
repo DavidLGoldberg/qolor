@@ -40,7 +40,7 @@ class QolorView extends HTMLElement
         if @markersForEditor[editor.id]
             for marker in @markersForEditor[editor.id]
                 marker.destroy()
-            @markersForEditor[editor.id] = []
+        @markersForEditor[editor.id] = []
 
     # Private
     turnOff: ->
@@ -61,7 +61,6 @@ class QolorView extends HTMLElement
     # Private
     update: (editor, grammar) ->
         @clearMarkers editor
-        @markersForEditor[editor.id] = []
 
         text = editor.getText()
         editorView = atom.views.getView(editor)
