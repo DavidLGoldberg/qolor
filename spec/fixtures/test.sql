@@ -32,3 +32,5 @@ select * into #temp2 tmp2
 -- HANDLE SCHEMAS:
 select tab.field from mySchema.myTable tab
 delete from mySchema.myTable where 1=1
+delete from mySchema.myTable
+    where 2=2

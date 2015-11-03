@@ -79,6 +79,12 @@ describe "QolorView", ->
                 index: 22
                 start: { row: 33, column: 21 }
                 end:   { row: 33, column: 28 }
+        it 'has marker @ "myTable tab" despite schema and delete keyword
+            and newline', ->
+            markerCheck
+                index: 23
+                start: { row: 34, column: 21 }
+                end:   { row: 34, column: 28 }
 
     describe 'from statement with temp table', ->
         it 'has marker @ "temp1" despite schema', ->
