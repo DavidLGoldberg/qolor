@@ -3,9 +3,9 @@ md5 = require 'md5'
 
 class QolorView extends HTMLElement
     # Private
+    aliasesForEditor: {}
     markersForEditor: {} # store pointers again per editor
     markers: [] # store all references too, why not.
-    aliases: {}
 
     # Public
     initialize: () ->
@@ -33,6 +33,8 @@ class QolorView extends HTMLElement
     clearAllMarkers: ->
         for marker in @markers
             marker.destroy()
+        @markersForEditor = {}
+        @aliasesForEditor = {}
         @markers = []
 
     # Private
@@ -41,6 +43,7 @@ class QolorView extends HTMLElement
             for marker in @markersForEditor[editor.id]
                 marker.destroy()
         @markersForEditor[editor.id] = []
+        @aliasesForEditor[editor.id] = {}
 
     # Private
     turnOff: ->
@@ -121,7 +124,9 @@ class QolorView extends HTMLElement
                 # insert into statement for example
                 alias = "" # wasnt' really an alias! TODO: confirm?
             else # is a regular alias
-                @aliases[alias] = tableName
+                if not @aliasesForEditor[editor.id]
+                    @aliasesForEditor[editor.id] = {}
+                @aliasesForEditor[editor.id][alias] = tableName
 
             className = getClass tableName
             color = getColor tableName
@@ -143,10 +148,11 @@ class QolorView extends HTMLElement
             tokenValue = token.value.trim().toLowerCase()
             originalTokenLength = token.value.length
 
-            if !@aliases[tokenValue] # only if it's a bogus alias...
+            if !@aliasesForEditor[editor.id][tokenValue]
+                # only if it's a bogus alias...
                 return [null, null]
 
-            className = getClass @aliases[tokenValue]
+            className = getClass @aliasesForEditor[editor.id][tokenValue]
 
             return [(editor.markBufferRange new Range(
                 new Point(lineNum, tokenPos),
