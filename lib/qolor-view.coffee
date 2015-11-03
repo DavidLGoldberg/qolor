@@ -172,7 +172,7 @@ class QolorView extends HTMLElement
                     if part1
                         tokenValue = part1 + tokenValue
                         tokenPos -= part1.length
-                        part1 = '' # clear for next time.
+                    part1 = '' # clear for next time.
                     decorateTable tokenValue, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
