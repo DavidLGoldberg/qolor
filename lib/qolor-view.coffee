@@ -55,7 +55,7 @@ class QolorView extends HTMLElement
 
     # Private
     update: (editor) ->
-        @clearMarkers(editor)
+        @clearMarkers editor
         @markersForEditor[editor.id] = []
 
         grammar = editor.getGrammar()
