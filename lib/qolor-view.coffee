@@ -169,7 +169,10 @@ class QolorView extends HTMLElement
                 else
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
-                    if part1
+                    if tokenValue is 'where' # handles `delete from` case!
+                        tokenValue = part1
+                        tokenPos -= part1.length + 1
+                    else if part1
                         tokenValue = part1 + tokenValue
                         tokenPos -= part1.length
                     part1 = '' # clear for next time.
