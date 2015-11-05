@@ -18,6 +18,8 @@ Two stylistic flavors.  Underline or a border box.  This is more of a placeholde
 
 ## Optional Keymap
 
+Go to Atom -> Open Your Keymap and enter the following:
+
     'atom-workspace':
       'ctrl-alt-q': 'qolor:toggle'
 
