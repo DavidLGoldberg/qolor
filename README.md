@@ -58,3 +58,7 @@ Pull requests?
 *   Jump to and from matching tables and aliases under cursor.
 
 *   List number of references in the status bar.
+
+## My other Atom package :)
+
+*   [Jumpy](https://atom.io/packages/jumpy)
