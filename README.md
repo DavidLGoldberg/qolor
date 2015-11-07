@@ -16,7 +16,7 @@ They will be the same on any Atom editor anywhere!
 
 Two stylistic flavors.  Underline or a border box.  This is more of a placeholder for now.  I only built this to facilitate pull requests etc.
 
-## Optional Keymap
+## Optional Keymap To Toggle
 
 Go to Atom -> Open Your Keymap and enter the following:
 
