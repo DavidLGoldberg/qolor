@@ -6,11 +6,12 @@
   "keywords": [
     "sql",
     "query",
-    "syntax",
+    "semantic",
     "highlight",
     "color",
     "tables",
-    "joins"
+    "joins",
+    "syntax"
   ],
   "repository": "https://github.com/atom/qolor",
   "license": "MIT",
