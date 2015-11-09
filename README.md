@@ -59,6 +59,10 @@ Pull requests?
 
 *   List number of references in the status bar.
 
+*   Add qolor to the minimap.
+
+*   Some kind of stats report of all tables or projected fields.  Maybe visual like a minimap?
+
 ## My other Atom package :)
 
 *   [Jumpy](https://atom.io/packages/jumpy)
