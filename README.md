@@ -63,6 +63,8 @@ Pull requests?
 
 *   Some kind of stats report of all tables or projected fields.  Maybe visual like a minimap?
 
+*   Some treatment of matching or applicable fields names?
+
 ## My other Atom package :)
 
 *   [Jumpy](https://atom.io/packages/jumpy)
