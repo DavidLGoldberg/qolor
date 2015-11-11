@@ -99,6 +99,11 @@ class QolorView extends HTMLElement
                 styleNode.parentNode.removeChild(styleNode)
                 styleNode = null
 
+        registerAlias = (tableName, alias) =>
+            if not @aliasesForEditor[editor.id]
+                @aliasesForEditor[editor.id] = {}
+            @aliasesForEditor[editor.id][alias] = tableName
+
         # TODO: Separate conditionals out of function that is supposed to just
         # decorate.  Single responsibliity... Break out the register of alias.
         decorateTable = (tokenValue, lineNum, tokenPos) =>
@@ -124,9 +129,7 @@ class QolorView extends HTMLElement
                 # insert into statement for example
                 alias = "" # wasnt' really an alias! TODO: confirm?
             else # is a regular alias
-                if not @aliasesForEditor[editor.id]
-                    @aliasesForEditor[editor.id] = {}
-                @aliasesForEditor[editor.id][alias] = tableName
+                registerAlias tableName, alias
 
             className = getClass tableName
             color = getColor tableName
