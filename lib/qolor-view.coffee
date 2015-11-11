@@ -164,7 +164,6 @@ class QolorView extends HTMLElement
                 , className]
 
         decorateNext = false # used by tables tables, aliases.
-        part1 = ''
         tablesTraverser = (token, lineNum, tokenPos) ->
             tokenValue = token.value.trim().toLowerCase()
             if decorateNext
@@ -172,19 +171,9 @@ class QolorView extends HTMLElement
                     return [null, null]
                 else if 'constant.other.database-name.sql' in token.scopes
                     return [null, null]
-                else if 'constant.other.table-name.sql' in token.scopes
-                    part1 = tokenValue
-                    return [null, null]
                 else
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
-                    if tokenValue is 'where' # handles `delete from` case!
-                        tokenValue = part1
-                        tokenPos -= part1.length + 1
-                    else if part1
-                        tokenValue = part1 + tokenValue
-                        tokenPos -= part1.length
-                    part1 = '' # clear for next time.
                     decorateTable tokenValue, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
