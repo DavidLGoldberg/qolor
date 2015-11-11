@@ -3,12 +3,12 @@ QolorView = require '../lib/qolor-view'
 path = require 'path'
 
 describe "QolorView", ->
-    [editor] = []
-
     beforeEach ->
         atom.project.setPaths([path.join(__dirname, 'fixtures')])
 
-        waitsForPromise -> atom.workspace.open 'test.sql'
+    markerCheck = (fileName, marker) ->
+        editor = []
+        waitsForPromise -> atom.workspace.open fileName
         waitsForPromise -> atom.packages.activatePackage 'language-sql'
         waitsForPromise -> atom.packages.activatePackage 'qolor'
 
@@ -17,163 +17,159 @@ describe "QolorView", ->
             grammar = atom.grammars.grammarForScopeName 'source.sql'
             editor.setGrammar(grammar)
 
-    markerCheck = (marker) ->
-        name = editor.findMarkers(type: 'qolor')[marker.index].getBufferRange()
-        expect(name.start.row).toBe marker.start.row
-        expect(name.start.column).toBe marker.start.column
-        expect(name.end.row).toBe marker.end.row
-        expect(name.end.column).toBe marker.end.column
+            name = editor.findMarkers(type: 'qolor')[marker.index]
+                .getBufferRange()
+            expect(name.start.row).toBe marker.start.row
+            expect(name.start.column).toBe marker.start.column
+            expect(name.end.row).toBe marker.end.row
+            expect(name.end.column).toBe marker.end.column
 
     describe 'from statement', ->
         #TODO: Pull out findMarkers above?
-        it 'has marker @ "test1 t1"', ->
-            markerCheck
-                index: 0
-                start: { row: 1, column: 14 }
-                end:   { row: 1, column: 22 }
+        describe 'base case', ->
+            it 'has marker @ "test1 t1"', ->
+                markerCheck 'from-statement-base-case.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 22 }
 
-        it 'has marker @ "test2 t2" despite casing', ->
-            markerCheck
-                index: 1
-                start: { row: 2, column: 14 }
-                end:   { row: 2, column: 22 }
+        describe 'alias in where clause', ->
+            it 'has marker @ "test2 t2" despite casing', ->
+                markerCheck 'from-statement-with-alias.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 22 }
+            it 'has marker for alias (lhs) "t2"', ->
+                markerCheck 'from-statement-with-alias.sql',
+                    index: 1
+                    start: { row: 0, column: 29 }
+                    end:   { row: 0, column: 31 }
 
-        it 'has marker @ "test3 t3" despite no trailing space', ->
-            markerCheck
-                index: 3
-                start: { row: 4, column: 14 }
-                end:   { row: 4, column: 22 }
+        describe 'no trailing space', ->
+            it 'has marker @ "test3 t3"', ->
+                markerCheck 'from-statement-with-nothing-after.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 22 }
 
+    describe 'ignores newlines', ->
         it 'has marker @ "newlines n" despite whitespace', ->
-            markerCheck
-                index: 10
-                start: { row: 13, column: 4 }
-                end:   { row: 13, column: 17 }
+            markerCheck 'newlines-and-spacing.sql',
+                index: 0
+                start: { row: 3, column: 4 }
+                end:   { row: 3, column: 17 }
+        it 'has marker for alias (lhs) "n"', ->
+            markerCheck 'newlines-and-spacing.sql',
+                index: 1
+                start: { row: 5, column: 4 }
+                end:   { row: 5, column: 5 }
+        it 'has marker for alias (rhs) "f"', ->
+            markerCheck 'newlines-and-spacing.sql',
+                index: 2
+                start: { row: 5, column: 19 }
+                end:   { row: 5, column: 20 }
 
-        it 'has marker @ "[test_brackets] b" despite brackets', ->
-            markerCheck
-                index: 15
-                start: { row: 22, column: 14 }
-                end:   { row: 22, column: 31 }
+    describe 'ignores markers', ->
+        it 'has marker @ "[test_brackets] b"', ->
+            markerCheck 'brackets.sql',
+                index: 0
+                start: { row: 0, column: 14 }
+                end:   { row: 0, column: 31 }
 
-        it 'has marker @ "defined_later d" despite being defined after
-            its alias appears first ', ->
-            markerCheck
-                index: 17
-                start: { row: 25, column: 18 }
-                end:   { row: 25, column: 33 }
-
-    describe 'from statement with schemas', ->
-        it 'has marker @ "tab" despite schema and defined after', ->
-            markerCheck
-                index: 20
-                start: { row: 32, column: 7 }
-                end:   { row: 32, column: 10 }
-        it 'has marker @ "myTable tab" despite schema', ->
-            markerCheck
-                index: 21
-                start: { row: 32, column: 31 }
-                end:   { row: 32, column: 42 }
-        it 'has marker @ "myTable tab" despite schema and delete keyword', ->
-            markerCheck
-                index: 22
-                start: { row: 33, column: 21 }
-                end:   { row: 33, column: 28 }
-        it 'has marker @ "myTable tab" despite schema and delete keyword
-            and newline', ->
-            markerCheck
-                index: 23
-                start: { row: 34, column: 21 }
-                end:   { row: 34, column: 28 }
+    describe 'alias before table is defined', ->
+        it 'has marker for alias "d" despite appearing before defined', ->
+            markerCheck 'alias-before-defined.sql',
+                index: 0
+                start: { row: 0, column: 7 }
+                end:   { row: 0, column: 8 }
+        it 'has a marker @ "defined_later d"', ->
+            markerCheck 'alias-before-defined.sql',
+                index: 1
+                start: { row: 0, column: 18 }
+                end:   { row: 0, column: 33 }
 
     describe 'from statement with temp table', ->
         it 'has marker @ "temp1" despite schema', ->
-            markerCheck
-                index: 18
-                start: { row: 28, column: 15 }
-                end:   { row: 28, column: 20 }
+            markerCheck 'temp-table-1.sql',
+                index: 0
+                start: { row: 0, column: 15 }
+                end:   { row: 0, column: 20 }
 
     describe 'into statement with temp table', ->
         it 'has marker @ "temp2 tmp2" despite schema', ->
-            markerCheck
-                index: 19
-                start: { row: 29, column: 15 }
-                end:   { row: 29, column: 25 }
+            markerCheck 'temp-table-2.sql',
+                index: 0
+                start: { row: 0, column: 15 }
+                end:   { row: 0, column: 25 }
 
     describe 'insert into statement', ->
         it 'has marker @ "insert_table"', ->
-            markerCheck
-                index: 13
-                start: { row: 18, column: 12 }
-                end:   { row: 18, column: 24 }
-
+            markerCheck 'insert-into-1.sql',
+                index: 0
+                start: { row: 0, column: 12 }
+                end:   { row: 0, column: 24 }
         it 'has marker @ "insert_table2"', ->
-            markerCheck
-                index: 14
-                start: { row: 19, column: 12 }
-                end:   { row: 19, column: 25 }
+            markerCheck 'insert-into-2.sql',
+                index: 0
+                start: { row: 0, column: 12 }
+                end:   { row: 0, column: 25 }
 
     describe 'join statement', ->
-        it 'has marker @ "person p"', ->
-            markerCheck
-                index: 4
-                start: { row: 7, column: 10 }
-                end:   { row: 7, column: 18 }
+        describe 'tables expression', ->
+            it 'has marker @ "person p"', ->
+                markerCheck 'join-statement.sql',
+                    index: 0
+                    start: { row: 0, column: 10 }
+                    end:   { row: 0, column: 18 }
+            it 'has marker @ "foo f"', ->
+                markerCheck 'join-statement.sql',
+                    index: 3
+                    start: { row: 0, column: 39 }
+                    end:   { row: 0, column: 44 }
 
-        it 'has marker @ "foo f"', ->
-            markerCheck
-                index: 7
-                start: { row: 7, column: 40 }
-                end:   { row: 7, column: 45 }
+        describe 'on expression', ->
+            it 'has marker for alias (lhs) "p"', ->
+                markerCheck 'join-statement.sql',
+                    index: 1
+                    start: { row: 0, column: 22 }
+                    end:   { row: 0, column: 23 }
+            it 'has marker for alias (rhs) "f"', ->
+                markerCheck 'join-statement.sql',
+                    index: 2
+                    start: { row: 0, column: 29 }
+                    end:   { row: 0, column: 30 }
+            it 'has marker for alias (lhs) "f"', ->
+                markerCheck 'join-statement.sql',
+                    index: 4
+                    start: { row: 0, column: 48 }
+                    end:   { row: 0, column: 49 }
+            it 'has marker for alias (rhs) "p"', ->
+                markerCheck 'join-statement.sql',
+                    index: 5
+                    start: { row: 0, column: 53 }
+                    end:   { row: 0, column: 54 }
 
-    describe 'alias in where clause', ->
-        it 'has marker for alias (lhs) "t2"', ->
-            markerCheck
-                index: 2
-                start: { row: 2, column: 29 }
-                end:   { row: 2, column: 31 }
-
-    describe 'on statement', ->
-        it 'has marker for alias (lhs) "p"', ->
-            markerCheck
-                index: 5
-                start: { row: 7, column: 22 }
-                end:   { row: 7, column: 23 }
-
-        it 'has marker for alias (rhs) "t1"', ->
-            markerCheck
-                index: 6
-                start: { row: 7, column: 29 }
-                end:   { row: 7, column: 31 }
-
-        it 'has marker for alias (lhs) "f"', ->
-            markerCheck
-                index: 8
-                start: { row: 7, column: 49 }
-                end:   { row: 7, column: 50 }
-
-        it 'has marker for alias (rhs) "p"', ->
-            markerCheck
-                index: 9
-                start: { row: 7, column: 54 }
-                end:   { row: 7, column: 55 }
-
-        it 'has marker for alias (lhs) "n"', ->
-            markerCheck
-                index: 11
-                start: { row: 15, column: 4 }
-                end:   { row: 15, column: 5 }
-
-        it 'has marker for alias (rhs) "f"', ->
-            markerCheck
-                index: 12
-                start: { row: 15, column: 19 }
-                end:   { row: 15, column: 20 }
-
-        it 'has marker for alias "d" despite appearing before defined', ->
-            markerCheck
-                index: 16
-                start: { row: 25, column: 7 }
-                end:   { row: 25, column: 8 }
-
-    #TODO: Add test for toggle.
+    describe 'from statement with schemas', ->
+        it 'has alias marker @ "tab" despite schema and defined after', ->
+            markerCheck 'schema-base-case.sql',
+                index: 0
+                start: { row: 0, column: 7 }
+                end:   { row: 0, column: 10 }
+        it 'has table marker @ "myTable tab" despite schema', ->
+            markerCheck 'schema-base-case.sql',
+                index: 1
+                start: { row: 0, column: 31 }
+                end:   { row: 0, column: 42 }
+        it 'has marker @ "myTable tab" despite schema and delete keyword', ->
+            markerCheck 'schema-delete-from.sql',
+                index: 0
+                start: { row: 0, column: 21 }
+                end:   { row: 0, column: 28 }
+        it 'has marker @ "myTable tab" despite schema and delete keyword
+            and newline', ->
+            markerCheck 'schema-delete-from-newline.sql',
+                index: 0
+                start: { row: 0, column: 21 }
+                end:   { row: 0, column: 28 }
+    #
+    # #TODO: Add test for toggle.
