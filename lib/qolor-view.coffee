@@ -175,11 +175,11 @@ class QolorView extends HTMLElement
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
                     return decorateTable tokenValue, lineNum, tokenPos
-            else # *slightly* more optimal
-                # following handles various types of joins ie:
-                # 'join', 'left join' etc.
-                decorateNext = tokenValue
-                    .split(' ')[-1..][0] in ['from', 'join', 'into']
+
+            # following handles various types of joins ie:
+            # 'join', 'left join' etc.
+            decorateNext = tokenValue
+                .split(' ')[-1..][0] in ['from', 'join', 'into']
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
             if 'constant.other.database-name.sql' in token.scopes
