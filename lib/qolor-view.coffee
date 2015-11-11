@@ -18,7 +18,7 @@ class QolorView extends HTMLElement
 
             disposable = editor.onDidStopChanging =>
                 @testMode = editor.buffer # set if any of the editors have it :\
-                    .file.path.endsWith 'qolor/spec/fixtures/test.sql'
+                    .file.path.includes 'qolor/spec/fixtures/'
                 @update editor, grammar
 
             @subscriptions.add disposable
