@@ -174,7 +174,7 @@ class QolorView extends HTMLElement
                 else
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
-                    decorateTable tokenValue, lineNum, tokenPos
+                    return decorateTable tokenValue, lineNum, tokenPos
             else # *slightly* more optimal
                 # following handles various types of joins ie:
                 # 'join', 'left join' etc.
