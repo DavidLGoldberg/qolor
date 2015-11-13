@@ -159,6 +159,11 @@ describe "QolorView", ->
             markerCheck 'schema-base-case.sql',
                 index: 1
                 start: { row: 0, column: 31 }
+                end:   { row: 0, column: 38 }
+        it 'has alias marker @ " tab" despite schema', ->
+            markerCheck 'schema-base-case.sql',
+                index: 2
+                start: { row: 0, column: 38 }
                 end:   { row: 0, column: 42 }
         it 'has marker @ "myTable tab" despite schema and delete keyword', ->
             markerCheck 'schema-delete-from.sql',

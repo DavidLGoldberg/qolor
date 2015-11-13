@@ -155,9 +155,16 @@ class QolorView extends HTMLElement
                 type: 'qolor')
                 , className]
 
-        decorateNext = false # used by tables tables, aliases.
+        decorateNext = false # used by tablesTraverser
+        justDecorated = '' # used by tablesTraverser
         tablesTraverser = (token, lineNum, tokenPos) =>
             tokenValue = token.value.trim().toLowerCase()
+
+            if justDecorated
+                registerAlias justDecorated, tokenValue
+                justDecorated = ''
+                return decorateAlias token, lineNum, tokenPos
+
             if decorateNext
                 if tokenValue in ['', '#', '.']
                     return [null, null]
@@ -179,7 +186,11 @@ class QolorView extends HTMLElement
                             hasBrackets: parsedTable.hasBrackets
                         ]
 
-                    registerAlias parsedTable.tableName, parsedTable.alias
+                    if parsedTable.alias.trim() != ''
+                        registerAlias parsedTable.tableName, parsedTable.alias
+                    else
+                        justDecorated = parsedTable.tableName
+
                     return decorateTable lineNum, tokenPos, parsedTable
 
             # following handles various types of joins ie:
