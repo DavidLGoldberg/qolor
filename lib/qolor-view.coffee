@@ -161,9 +161,11 @@ class QolorView extends HTMLElement
             tokenValue = token.value.trim().toLowerCase()
 
             if justDecorated
-                registerAlias justDecorated, tokenValue
+                if tokenValue
+                    registerAlias justDecorated, tokenValue
+                    aliasReturn = decorateAlias token, lineNum, tokenPos
                 justDecorated = ''
-                return decorateAlias token, lineNum, tokenPos
+                return aliasReturn || [null, null]
 
             if decorateNext
                 if tokenValue in ['', '#', '.']
