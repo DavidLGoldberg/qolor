@@ -104,9 +104,7 @@ class QolorView extends HTMLElement
                 @aliasesForEditor[editor.id] = {}
             @aliasesForEditor[editor.id][alias] = tableName
 
-        # TODO: Separate conditionals out of function that is supposed to just
-        # decorate.  Single responsibliity... Break out the register of alias.
-        decorateTable = (tokenValue, lineNum, tokenPos) =>
+        parseTable = (tokenValue, lineNum, tokenPos) ->
             if tokenValue.includes '['
                 hasBrackets = true
                 matches = tokenValue.match /^(\s*)\[(\S*)\](\s*)(\S*)(\s*)$/
@@ -114,23 +112,17 @@ class QolorView extends HTMLElement
                 matches = tokenValue.match /^(\s*)(\S*)(\s*)(\S*)(\s*)$/
 
             [leading, tableName, middle, alias, trailing] = matches[1..5]
+            parsedTable = { leading, tableName, middle, alias, trailing }
 
-            if @testMode
-                console.table [ # Useful for debugging:
-                    token: tokenValue
-                    leading: leading
-                    tableName: tableName
-                    middle: middle
-                    alias: alias
-                    trailing: trailing
-                ]
-
-            if alias.match /.*\(.*\).*/
+            if parsedTable.alias.match /.*\(.*\).*/
                 # insert into statement for example
-                alias = "" # wasnt' really an alias! TODO: confirm?
-            else # is a regular alias
-                registerAlias tableName, alias
+                parsedTable.alias = ''
 
+            parsedTable.hasBrackets = hasBrackets
+            return parsedTable
+
+        decorateTable = (lineNum, tokenPos, parsedTable) =>
+            { leading, tableName, middle, alias, trailing } = parsedTable
             className = getClass tableName
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
@@ -139,7 +131,7 @@ class QolorView extends HTMLElement
             finish = new Point lineNum, tokenPos + leading.length +
                 tableName.length +
                 (if alias then middle.length + alias.length else 0) +
-                (if hasBrackets then 2 else 0)
+                (if parsedTable.hasBrackets then 2 else 0)
                 # trailing.length: (don't need it thus far)
 
             return [(editor.markBufferRange new Range(start, finish),
@@ -164,7 +156,7 @@ class QolorView extends HTMLElement
                 , className]
 
         decorateNext = false # used by tables tables, aliases.
-        tablesTraverser = (token, lineNum, tokenPos) ->
+        tablesTraverser = (token, lineNum, tokenPos) =>
             tokenValue = token.value.trim().toLowerCase()
             if decorateNext
                 if tokenValue in ['', '#', '.']
@@ -174,7 +166,21 @@ class QolorView extends HTMLElement
                 else
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
-                    return decorateTable tokenValue, lineNum, tokenPos
+                    parsedTable = parseTable tokenValue, lineNum, tokenPos
+
+                    if @testMode
+                        console.table [ # Useful for debugging:
+                            token: tokenValue
+                            leading: parsedTable.leading
+                            tableName: parsedTable.tableName
+                            middle: parsedTable.middle
+                            alias: parsedTable.alias
+                            trailing: parsedTable.trailing
+                            hasBrackets: parsedTable.hasBrackets
+                        ]
+
+                    registerAlias parsedTable.tableName, parsedTable.alias
+                    return decorateTable lineNum, tokenPos, parsedTable
 
             # following handles various types of joins ie:
             # 'join', 'left join' etc.
