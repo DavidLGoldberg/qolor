@@ -6,7 +6,7 @@ describe "QolorView", ->
     beforeEach ->
         atom.project.setPaths([path.join(__dirname, 'fixtures')])
 
-    markerCheck = (fileName, marker) ->
+    markerCheck = (fileName, marker, onlyOne = false) ->
         editor = []
         waitsForPromise -> atom.workspace.open fileName
         waitsForPromise -> atom.packages.activatePackage 'language-sql'
@@ -17,12 +17,15 @@ describe "QolorView", ->
             grammar = atom.grammars.grammarForScopeName 'source.sql'
             editor.setGrammar(grammar)
 
-            name = editor.findMarkers(type: 'qolor')[marker.index]
+            markers = editor.findMarkers(type: 'qolor')
+            name = markers[marker.index]
                 .getBufferRange()
             expect(name.start.row).toBe marker.start.row
             expect(name.start.column).toBe marker.start.column
             expect(name.end.row).toBe marker.end.row
             expect(name.end.column).toBe marker.end.column
+            if onlyOne
+                expect(markers.length).toBe 1
 
     describe 'from statement', ->
         #TODO: Pull out findMarkers above?
@@ -155,7 +158,7 @@ describe "QolorView", ->
                 index: 0
                 start: { row: 0, column: 7 }
                 end:   { row: 0, column: 10 }
-        it 'has table marker @ "myTable tab" despite schema', ->
+        it 'has table marker @ "myTable" despite schema', ->
             markerCheck 'schema-base-case.sql',
                 index: 1
                 start: { row: 0, column: 31 }
@@ -165,6 +168,12 @@ describe "QolorView", ->
                 index: 2
                 start: { row: 0, column: 38 }
                 end:   { row: 0, column: 42 }
+        it 'has table marker @ "myTable" despite schema', ->
+            markerCheck 'schema-base-case-no-alias.sql',
+                index: 0
+                start: { row: 0, column: 27 }
+                end:   { row: 0, column: 34 }
+                , true # verify that only one index exists
         it 'has marker @ "myTable tab" despite schema and delete keyword', ->
             markerCheck 'schema-delete-from.sql',
                 index: 0
