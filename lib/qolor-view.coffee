@@ -161,7 +161,9 @@ class QolorView extends HTMLElement
             tokenValue = token.value.trim().toLowerCase()
 
             if justDecorated
-                if tokenValue
+                if token.scopes.length > 1 # no keywords etc.
+                    aliasReturn = [null, null]
+                else if tokenValue # instead schema aliases have no token :\
                     registerAlias justDecorated, tokenValue
                     aliasReturn = decorateAlias token, lineNum, tokenPos
                 justDecorated = ''

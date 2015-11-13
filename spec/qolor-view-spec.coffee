@@ -111,6 +111,7 @@ describe "QolorView", ->
                 index: 0
                 start: { row: 0, column: 12 }
                 end:   { row: 0, column: 24 }
+                , true
         it 'has marker @ "insert_table2"', ->
             markerCheck 'insert-into-2.sql',
                 index: 0
