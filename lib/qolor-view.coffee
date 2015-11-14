@@ -100,6 +100,8 @@ class QolorView extends HTMLElement
                 styleNode = null
 
         registerAlias = (tableName, alias) =>
+            if alias.match /.*\(.*\).*/
+                return
             if not @aliasesForEditor[editor.id]
                 @aliasesForEditor[editor.id] = {}
             @aliasesForEditor[editor.id][alias] = tableName
