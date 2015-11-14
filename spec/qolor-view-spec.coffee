@@ -117,6 +117,12 @@ describe "QolorView", ->
                 index: 0
                 start: { row: 0, column: 12 }
                 end:   { row: 0, column: 25 }
+        it 'has marker @ "insert_table2" despite schema', ->
+            markerCheck 'insert-into-2-with-schema.sql',
+                index: 0
+                start: { row: 0, column: 21 }
+                end:   { row: 0, column: 33 }
+                , true
     describe 'insert into statement breaks with space', ->
         it 'has marker @ "f"', ->
             markerCheck 'insert-into-2-does-not-break.sql',
