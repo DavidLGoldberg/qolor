@@ -117,6 +117,32 @@ describe "QolorView", ->
                 index: 0
                 start: { row: 0, column: 12 }
                 end:   { row: 0, column: 25 }
+    describe 'insert into statement breaks with space', ->
+        it 'has marker @ "f"', ->
+            markerCheck 'insert-into-2-does-not-break.sql',
+                index: 0
+                start: { row: 0, column: 7 }
+                end:   { row: 0, column: 8 }
+        it 'has marker @ "foo f"', ->
+            markerCheck 'insert-into-2-does-not-break.sql',
+                index: 1
+                start: { row: 0, column: 18 }
+                end:   { row: 0, column: 23 }
+        it 'has marker @ "f"', ->
+            markerCheck 'insert-into-2-does-not-break.sql',
+                index: 2
+                start: { row: 0, column: 30 }
+                end:   { row: 0, column: 31 }
+        it 'has marker @ "f"', ->
+            markerCheck 'insert-into-2-does-not-break.sql',
+                index: 3
+                start: { row: 0, column: 38 }
+                end:   { row: 0, column: 39 }
+        it 'has marker @ "insert_table2"', ->
+            markerCheck 'insert-into-2-does-not-break.sql',
+                index: 4
+                start: { row: 3, column: 12 }
+                end:   { row: 3, column: 25 }
 
     describe 'join statement', ->
         describe 'tables expression', ->
