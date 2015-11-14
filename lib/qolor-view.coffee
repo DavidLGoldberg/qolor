@@ -167,7 +167,7 @@ class QolorView extends HTMLElement
                     registerAlias justDecorated, tokenValue
                     aliasReturn = decorateAlias token, lineNum, tokenPos
                 justDecorated = ''
-                return aliasReturn
+                return aliasReturn || [null, null]
 
             if decorateNext
                 if tokenValue in ['', '#', '.']
