@@ -8,8 +8,7 @@ their aliases using the same color.
 All colors of tables are deterministic and based on their name.
 They will be the same on any Atom editor anywhere!
 
-(Please feel free to take screen shots and text samples of broken cases and create
-issues)
+(Please feel free create issues of broken cases with screen shots or text samples!)
 
 ## Installation
 
