@@ -1,1 +1,1 @@
-insert into insert_table2 (a,b,c)
+insert into insert_table (a,b,c)

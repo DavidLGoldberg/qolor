@@ -1,3 +1,3 @@
-select * from test3 t3
+select * from test t
 
 -- HANDLE NOTHING AFTER (WEIRD, BUT A REAL CASE)

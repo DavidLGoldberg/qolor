@@ -1,1 +1,1 @@
-insert into myschema.insert_into2 (a,b,c)
+insert into myschema.insert_into (a,b,c)

@@ -1,1 +1,1 @@
-SeLeCt * FROM test2 t2 where t2.foo='foo'
+SeLeCt * FROM test t where t.foo='foo'

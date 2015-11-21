@@ -30,30 +30,30 @@ describe "QolorView", ->
     describe 'from statement', ->
         #TODO: Pull out findMarkers above?
         describe 'base case', ->
-            it 'has marker @ "test1 t1"', ->
+            it 'has marker @ "test t"', ->
                 markerCheck 'from-statement-base-case.sql',
                     index: 0
                     start: { row: 0, column: 14 }
-                    end:   { row: 0, column: 22 }
+                    end:   { row: 0, column: 20 }
 
         describe 'alias in where clause', ->
-            it 'has marker @ "test2 t2" despite casing', ->
+            it 'has marker @ "test t" despite casing in select statement', ->
                 markerCheck 'from-statement-with-alias.sql',
                     index: 0
                     start: { row: 0, column: 14 }
-                    end:   { row: 0, column: 22 }
-            it 'has marker for alias (lhs) "t2"', ->
+                    end:   { row: 0, column: 20 }
+            it 'has marker for alias (lhs) "t"', ->
                 markerCheck 'from-statement-with-alias.sql',
                     index: 1
-                    start: { row: 0, column: 29 }
-                    end:   { row: 0, column: 31 }
+                    start: { row: 0, column: 27 }
+                    end:   { row: 0, column: 28 }
 
         describe 'no trailing space', ->
-            it 'has marker @ "test3 t3"', ->
+            it 'has marker @ "test t"', ->
                 markerCheck 'from-statement-with-nothing-after.sql',
                     index: 0
                     start: { row: 0, column: 14 }
-                    end:   { row: 0, column: 22 }
+                    end:   { row: 0, column: 20 }
 
     describe 'ignores newlines', ->
         it 'has marker @ "newlines n" despite whitespace', ->
@@ -112,17 +112,18 @@ describe "QolorView", ->
                 start: { row: 0, column: 12 }
                 end:   { row: 0, column: 24 }
                 , true
-        it 'has marker @ "insert_table2"', ->
+        it 'has marker @ "insert_table"', ->
             markerCheck 'insert-into-2.sql',
                 index: 0
                 start: { row: 0, column: 12 }
-                end:   { row: 0, column: 25 }
-        it 'has marker @ "insert_table2" despite schema', ->
+                end:   { row: 0, column: 24 }
+        it 'has marker @ "insert_table" despite schema', ->
             markerCheck 'insert-into-2-with-schema.sql',
                 index: 0
                 start: { row: 0, column: 21 }
-                end:   { row: 0, column: 33 }
+                end:   { row: 0, column: 32 }
                 , true
+
     describe 'insert into statement breaks with space', ->
         it 'has marker @ "f"', ->
             markerCheck 'insert-into-2-does-not-break.sql',
@@ -144,11 +145,11 @@ describe "QolorView", ->
                 index: 3
                 start: { row: 0, column: 38 }
                 end:   { row: 0, column: 39 }
-        it 'has marker @ "insert_table2"', ->
+        it 'has marker @ "insert_table"', ->
             markerCheck 'insert-into-2-does-not-break.sql',
                 index: 4
                 start: { row: 3, column: 12 }
-                end:   { row: 3, column: 25 }
+                end:   { row: 3, column: 24 }
 
     describe 'join statement', ->
         describe 'tables expression', ->
@@ -218,5 +219,18 @@ describe "QolorView", ->
                 index: 0
                 start: { row: 0, column: 21 }
                 end:   { row: 0, column: 28 }
-    #
-    # #TODO: Add test for toggle.
+
+    # Currently the language-sql breaks on numbers but this should be fixed soon
+    xdescribe 'numbers in tables or aliases', ->
+        it 'has marker @ "test2 t2"', ->
+            markerCheck 'numbers.sql',
+                index: 0
+                start: { row: 0, column: 14 }
+                end:   { row: 0, column: 22 }
+        it 'has marker for alias (lhs) "t2"', ->
+            markerCheck 'numbers.sql',
+                index: 1
+                start: { row: 0, column: 29 }
+                end:   { row: 0, column: 31 }
+
+    # TODO: Add test for toggle.

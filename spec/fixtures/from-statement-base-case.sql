@@ -1,1 +1,1 @@
-select * from test1 t1 where foo='foo'
+select * from test t where foo='foo'
