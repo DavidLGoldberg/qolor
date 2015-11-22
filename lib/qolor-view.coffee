@@ -13,7 +13,8 @@ class QolorView extends HTMLElement
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
             disposable = editor.onDidStopChanging =>
                 @testMode = editor.buffer # set if any of the editors have it :\
-                    .file.path.includes 'qolor/spec/fixtures/'
+                    # check exists (?'s) for new file case
+                    ?.file?.path.includes 'qolor/spec/fixtures/'
                 @update editor
 
             @subscriptions.add disposable
