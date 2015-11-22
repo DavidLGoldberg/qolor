@@ -11,23 +11,18 @@ class QolorView extends HTMLElement
     initialize: () ->
         @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
-            grammar = editor.getGrammar()
-            # don't do anything to any non sql file!
-            unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
-                return
-
             disposable = editor.onDidStopChanging =>
                 @testMode = editor.buffer # set if any of the editors have it :\
                     .file.path.includes 'qolor/spec/fixtures/'
-                @update editor, grammar
+                @update editor
 
             @subscriptions.add disposable
             editor.onDidDestroy -> disposable.dispose()
 
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
-                @update editor, grammar
+                @update editor
 
-            @update editor, grammar # for spec tests and initial load
+            @update editor # for spec tests and initial load
 
     # Private
     clearAllMarkers: ->
@@ -62,7 +57,13 @@ class QolorView extends HTMLElement
             @initialize()
 
     # Private
-    update: (editor, grammar) ->
+    update: (editor) ->
+        grammar = editor.getGrammar()
+
+        # don't do anything to any non sql file!
+        unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
+            return
+
         @clearMarkers editor
 
         text = editor.getText()
