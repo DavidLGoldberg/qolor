@@ -186,6 +186,72 @@ describe "QolorView", ->
                     start: { row: 0, column: 53 }
                     end:   { row: 0, column: 54 }
 
+        describe 'cartesian without aliases', ->
+            it 'has marker on table "employee"', ->
+                markerCheck 'cartesian-no-alias.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 22 }
+            it 'has marker on table "department"', ->
+                markerCheck 'cartesian-no-alias.sql',
+                    index: 1
+                    start: { row: 0, column: 24 }
+                    end:   { row: 0, column: 34 }
+            it 'has marker on table "department"', ->
+                markerCheck 'cartesian-no-alias.sql',
+                    index: 2
+                    start: { row: 1, column: 6 }
+                    end:   { row: 1, column: 15 }
+            it 'has marker on table "department"', ->
+                markerCheck 'cartesian-no-alias.sql',
+                    index: 3
+                    start: { row: 1, column: 30 }
+                    end:   { row: 1, column: 40 }
+
+        describe 'cartesian with aliases', ->
+            it 'has marker on table "employee e"', ->
+                markerCheck 'cartesian-alias.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 24 }
+            it 'has marker on table "department d"', ->
+                markerCheck 'cartesian-alias.sql',
+                    index: 1
+                    start: { row: 0, column: 26 }
+                    end:   { row: 0, column: 38 }
+            it 'has marker on table "e"', ->
+                markerCheck 'cartesian-alias.sql',
+                    index: 2
+                    start: { row: 1, column: 6 }
+                    end:   { row: 1, column: 7 }
+            it 'has marker on table "d"', ->
+                markerCheck 'cartesian-alias.sql',
+                    index: 3
+                    start: { row: 1, column: 24 }
+                    end:   { row: 1, column: 25 }
+
+        describe 'join with no aliases', ->
+            it 'has marker on table "employee"', ->
+                markerCheck 'join-statement-no-alias.sql',
+                    index: 0
+                    start: { row: 0, column: 14 }
+                    end:   { row: 0, column: 22 }
+            it 'has marker on table "department"', ->
+                markerCheck 'join-statement-no-alias.sql',
+                    index: 1
+                    start: { row: 0, column: 28 }
+                    end:   { row: 0, column: 38 }
+            it 'has marker on table (lhs) "employee"', ->
+                markerCheck 'join-statement-no-alias.sql',
+                    index: 2
+                    start: { row: 0, column: 42 }
+                    end:   { row: 0, column: 50 }
+            it 'has marker on table (rhs) "department"', ->
+                markerCheck 'join-statement-no-alias.sql',
+                    index: 3
+                    start: { row: 0, column: 66 }
+                    end:   { row: 0, column: 76 }
+
     describe 'from statement with schemas', ->
         it 'has alias marker @ "tab" despite schema and defined after', ->
             markerCheck 'schema-base-case.sql',
