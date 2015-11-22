@@ -17,8 +17,9 @@ samples!)
 
 ## Settings
 
-Two stylistic flavors.  Underline or a border box.  This is more of a
-placeholder for now.  I only built this to facilitate pull requests etc.
+Two stylistic flavors.  Underline (default) or a border box.
+The border box is more of a placeholder for now.
+I only built it to facilitate pull requests etc.
 
 ## Optional Keymap To Toggle
 
