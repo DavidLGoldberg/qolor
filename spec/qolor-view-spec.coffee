@@ -186,7 +186,7 @@ describe "QolorView", ->
                     start: { row: 0, column: 53 }
                     end:   { row: 0, column: 54 }
 
-        describe 'cartesian without aliases', ->
+        xdescribe 'cartesian without aliases', ->
             it 'has marker on table "employee"', ->
                 markerCheck 'cartesian-no-alias.sql',
                     index: 0
@@ -208,7 +208,7 @@ describe "QolorView", ->
                     start: { row: 1, column: 30 }
                     end:   { row: 1, column: 40 }
 
-        describe 'cartesian with aliases', ->
+        xdescribe 'cartesian with aliases', ->
             it 'has marker on table "employee e"', ->
                 markerCheck 'cartesian-alias.sql',
                     index: 0
