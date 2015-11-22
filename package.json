@@ -13,7 +13,7 @@
     "joins",
     "syntax"
   ],
-  "repository": "https://github.com/atom/qolor",
+  "repository": "https://github.com/davidlgoldberg/qolor",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
