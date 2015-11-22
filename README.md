@@ -5,6 +5,8 @@ An atom package to color your queries!
 Qolor applies semantic highlighting to your SQL queries by matching tables to
 their aliases.
 
+![Qolor in action!](https://raw.githubusercontent.com/DavidLGoldberg/qolor/master/_images/qolor.png "Qolor - Semantic highlighting for SQL")
+
 All colors of tables are deterministic and based on their name.
 They will be the same on any Atom editor anywhere!
 
