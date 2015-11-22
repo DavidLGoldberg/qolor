@@ -67,6 +67,9 @@ for observing the grammar and because well, computers are fast.
 
 ## TODO
 
+*   Table and aliases with numbers see this [issue](https://github.com/atom/language-sql/issues/30).
+This was working and will probably be fixed, so not going to make a workaround.
+
 *   Custom styling of underline / border.
 
 *   Better handling of colors.  Possibly hue blending etc.  Leverage theme
