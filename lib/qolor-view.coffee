@@ -178,6 +178,10 @@ class QolorView extends HTMLElement
             if justDecorated
                 if token.scopes.length > 1 # no keywords etc.
                     decorateNext = shouldDecorateNext(tokenValue)
+
+                    # Handles case for no alias treat the table as
+                    # an alias itself. I know, I know, this is getting crazy...
+                    registerAlias justDecorated, justDecorated
                     aliasReturn = [null, null]
                 else if tokenValue # instead schema aliases have no token :\
                     registerAlias justDecorated, tokenValue
