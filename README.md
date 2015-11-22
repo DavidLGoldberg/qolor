@@ -51,7 +51,8 @@ Here are some of the related links:
 
 ## How it works
 
-Qolor uses the language-sql grammar built into Atom.
+Qolor uses the [language-sql](https://github.com/atom/language-sql)
+grammar built into Atom.
 The code performs a double pass.
 First pass for the table names and second pass for the aliases.
 
