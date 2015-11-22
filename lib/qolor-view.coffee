@@ -114,8 +114,16 @@ class QolorView extends HTMLElement
             else # no brackets
                 matches = tokenValue.match /^(\s*)(\S*)(\s*)(\S*)(\s*)$/
 
-            [leading, tableName, middle, alias, trailing] = matches[1..5]
-            parsedTable = { leading, tableName, middle, alias, trailing }
+            if !matches
+                parsedTable =
+                    leading: ''
+                    tableName: ''
+                    middle: ''
+                    alias: ''
+                    trailing: ''
+            else
+                [leading, tableName, middle, alias, trailing] = matches?[1..5]
+                parsedTable = { leading, tableName, middle, alias, trailing }
 
             if parsedTable.alias.match /.*\(.*\).*/
                 # insert into statement for example
