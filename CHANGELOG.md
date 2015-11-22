@@ -1,4 +1,6 @@
 # 0.1.0 - First Release
 
 *   Every feature added
-*   Every bug fixed
+
+*   Two outstanding bugs.  See
+    [**issues**](https://github.com/DavidLGoldberg/qolor/issues).
