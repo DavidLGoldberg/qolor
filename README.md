@@ -8,8 +8,13 @@ their aliases.
 All colors of tables are deterministic and based on their name.
 They will be the same on any Atom editor anywhere!
 
-(Please feel free to create issues of broken cases with screen shots or text
-samples!)
+Qolor has a few outstanding issues but it's usable and I want to launch it in
+the spirit of MVP.
+I say it's usable because it doesn't throw errors or pop up the inspector.
+If you see it doing this please report ASAP.
+Please feel free to create issues of broken coloring cases with screen shots
+or text samples (remember to check out the TODO below and the open
+[issues](https://github.com/DavidLGoldberg/qolor/issues)).
 
 ## Installation
 
@@ -68,8 +73,14 @@ for observing the grammar and because well, computers are fast.
 
 ## TODO
 
-*   Table and aliases with numbers see this [issue](https://github.com/atom/language-sql/issues/30).
+*   [BUG] Table and aliases with numbers see this [issue](https://github.com/atom/language-sql/issues/30).
 This was working and will probably be fixed, so not going to make a workaround.
+
+*   [BUG] Cartesian products / cross joins don't work.
+They are particularly troublesome without aliases.  This is due to existing
+limitations in the `language-sql` grammar.  I have an idea of how to address
+this but prefer to see if anyone has a suggestion of how to integrate
+a real parser.
 
 *   Custom styling of underline / border.
 
