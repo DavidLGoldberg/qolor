@@ -161,10 +161,15 @@ class QolorView extends HTMLElement
         decorateNext = false # used by tablesTraverser
         justDecorated = '' # used by tablesTraverser
         tablesTraverser = (token, lineNum, tokenPos) =>
+            shouldDecorateNext = (tokenValue) ->
+                tokenValue
+                    .split(' ')[-1..][0] in ['from', 'join', 'into']
+
             tokenValue = token.value.trim().toLowerCase()
 
             if justDecorated
                 if token.scopes.length > 1 # no keywords etc.
+                    decorateNext = shouldDecorateNext(tokenValue)
                     aliasReturn = [null, null]
                 else if tokenValue # instead schema aliases have no token :\
                     registerAlias justDecorated, tokenValue
@@ -202,8 +207,7 @@ class QolorView extends HTMLElement
 
             # following handles various types of joins ie:
             # 'join', 'left join' etc.
-            decorateNext = tokenValue
-                .split(' ')[-1..][0] in ['from', 'join', 'into']
+            decorateNext = shouldDecorateNext(tokenValue)
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
             if 'constant.other.database-name.sql' in token.scopes
