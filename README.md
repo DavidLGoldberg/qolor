@@ -52,15 +52,14 @@ Here are some of the related links:
 ## How it works
 
 Qolor uses the [language-sql](https://github.com/atom/language-sql)
-grammar built into Atom.
+grammar built into Atom (actually it evolved from textmate/sublime).
 The code performs a double pass.
 First pass for the table names and second pass for the aliases.
 
 I don't know of any SQL parsers in node usable for this project.
 
-The code is ugly.  Atom's grammar (evolved from textmate/sublime) for SQL
-suffices for syntax coloring, but it's tokens aren't always accurate.
-I try to make a layer of rules on top.
+The code is ugly.  `language-sql` suffices for syntax coloring, but it's tokens
+aren't always accurate. I try to make a layer of rules on top.
 
 It should work for most cases, but please report any issues.
 
