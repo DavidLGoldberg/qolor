@@ -336,6 +336,13 @@ describe "QolorView", ->
                 start: { row: 0, column: 21 }
                 end:   { row: 0, column: 28 }
 
+    describe 'from statement with fully qualified', ->
+        it 'has alias marker @ "table" despite schema and database', ->
+            markerCheck 'fully-qualified.sql',
+                index: 0
+                start: { row: 1, column: 30 }
+                end:   { row: 1, column: 35 }
+
     describe 'numbers in tables or aliases', ->
         it 'has marker @ "test2 t2"', ->
             markerCheck 'numbers.sql',
