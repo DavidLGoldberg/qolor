@@ -20,6 +20,10 @@ class QolorView extends HTMLElement
             @subscriptions.add disposable
             editor.onDidDestroy -> disposable.dispose()
 
+            # watch for the appropriate language (grammar's scopeName)
+            @subscriptions.add editor.onDidChangeGrammar (grammar) =>
+                @update(editor)
+
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
                 @update editor
 
@@ -63,6 +67,7 @@ class QolorView extends HTMLElement
 
         # don't do anything to any non sql file!
         unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
+            @clearAllMarkers() # necessary for onDidChangeGrammar
             return
 
         @clearMarkers editor
