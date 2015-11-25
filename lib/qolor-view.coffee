@@ -163,10 +163,12 @@ class QolorView extends HTMLElement
             return [(editor.markBufferRange new Range(start, finish))
                 , className]
 
-        decorateAlias = (token, lineNum, tokenPos) =>
+        decorateAlias = (token, lineNum, tokenPos, afterAsClause=false) =>
             # NOTE: Assert: Is 2ND PASS ("aliases") ONLY!
-            tokenValue = token.value.trim().toLowerCase()
+            tokenValueLeft = token.value.trimLeft().toLowerCase()
             originalTokenLength = token.value.length
+            lengthDiff = originalTokenLength - tokenValueLeft.length
+            tokenValue = token.value.trim().toLowerCase()
 
             if !@aliasesForEditor[editor.id][tokenValue]
                 # only if it's a bogus alias...
@@ -175,9 +177,12 @@ class QolorView extends HTMLElement
             className = getClass @aliasesForEditor[editor.id][tokenValue]
 
             return [(editor.markBufferRange new Range(
-                new Point(lineNum, tokenPos),
+                # The following's afterAsClause is used to not highlight "as"
+                # But keep alias and table as one underline in other cases.
+                new Point(lineNum, tokenPos + (afterAsClause ? lengthDiff : 0)),
                 new Point(lineNum, tokenPos + originalTokenLength))), className]
 
+        afterAsClause  = false
         decorateNext = false # used by tablesTraverser
         justDecorated = '' # used by tablesTraverser
         tablesTraverser = (token, lineNum, tokenPos) =>
@@ -188,7 +193,9 @@ class QolorView extends HTMLElement
             tokenValue = token.value.trim().toLowerCase()
 
             if justDecorated
-                if token.scopes.length > 1 # no keywords etc.
+                if 'keyword.other.alias.sql' in token.scopes
+                    afterAsClause = true
+                else if token.scopes.length > 1 # no keywords etc.
                     decorateNext = shouldDecorateNext(tokenValue)
 
                     # Handles case for no alias treat the table as
@@ -197,8 +204,10 @@ class QolorView extends HTMLElement
                     aliasReturn = [null, null]
                 else if tokenValue # instead schema aliases have no token :\
                     registerAlias justDecorated, tokenValue
-                    aliasReturn = decorateAlias token, lineNum, tokenPos
-                justDecorated = ''
+                    aliasReturn = decorateAlias token, lineNum, tokenPos,
+                        afterAsClause
+                if !afterAsClause
+                    justDecorated = ''
                 return aliasReturn || [null, null]
 
             if decorateNext

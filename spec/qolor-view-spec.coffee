@@ -120,6 +120,23 @@ describe "QolorView", ->
                 start: { row: 0, column: 18 }
                 end:   { row: 0, column: 33 }
 
+    describe 'alias with "as" keyword', ->
+        it 'has marker for alias "d" despite appearing before defined', ->
+            markerCheck 'alias-with-as.sql',
+                index: 2
+                start: { row: 0, column: 7 }
+                end:   { row: 0, column: 8 }
+        it 'has a marker @ "defined_later"', ->
+            markerCheck 'alias-with-as.sql',
+                index: 0
+                start: { row: 0, column: 18 }
+                end:   { row: 0, column: 31 }
+        it 'has marker for alias "d"', ->
+            markerCheck 'alias-with-as.sql',
+                index: 1
+                start: { row: 0, column: 35 }
+                end:   { row: 0, column: 36 }
+
     describe 'from statement with temp table', ->
         it 'has marker @ "temp1" despite schema', ->
             markerCheck 'temp-table-1.sql',
