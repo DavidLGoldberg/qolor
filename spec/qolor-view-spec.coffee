@@ -29,6 +29,31 @@ describe "QolorView", ->
             if onlyOne
                 expect(markers.length).toBe 1
 
+    describe 'opening a non sql file', ->
+        it 'should not remove decorations on qolored sql', ->
+            editor = []
+            # first one is an arbitrary file:
+            waitsForPromise -> atom.workspace.open 'schema-base-case.sql'
+            waitsForPromise -> atom.packages.activatePackage 'language-sql'
+            waitsForPromise -> atom.packages.activatePackage 'qolor'
+
+            # ** MEAT OF THE TEST **:
+            waitsForPromise -> atom.workspace.open '_not-sql.md'
+            waitsForPromise -> atom.workspace.open 'schema-base-case.sql'
+
+            runs ->
+                editor = atom.workspace.getActiveTextEditor()
+                grammar = atom.grammars.grammarForScopeName 'source.sql'
+                editor.setGrammar(grammar)
+
+                markers = editor.findMarkers(type: 'qolor')
+                name = markers[0] # just use the first test case from below
+                    .getBufferRange()
+                expect(name.start.row).toBe 0
+                expect(name.start.column).toBe 7
+                expect(name.end.row).toBe 0
+                expect(name.end.column).toBe 10
+
     describe 'from statement', ->
         #TODO: Pull out findMarkers above?
         describe 'base case', ->
