@@ -70,7 +70,7 @@ class QolorView extends HTMLElement
 
         # don't do anything to any non sql file!
         unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
-            @clearAllMarkers() # necessary for onDidChangeGrammar
+            @clearMarkers(editor) # necessary for onDidChangeGrammar
             return
 
         @clearMarkers editor

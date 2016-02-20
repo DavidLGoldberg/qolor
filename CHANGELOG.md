@@ -1,3 +1,8 @@
+# 0.2.1 - Bug fixes
+
+*   Fixes #9 - not decorating on load.
+*   Fixes #11 - decorations disappearing after opening a non sql file or saving a non sql file.
+
 # 0.2.0 - Enhancement
 
 *   Add trigger for grammar/language changes (ie. user clicks on the
