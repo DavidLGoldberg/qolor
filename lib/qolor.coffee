@@ -1,3 +1,6 @@
+### global
+atom
+###
 {CompositeDisposable} = require 'atom'
 QolorView = require './qolor-view'
 

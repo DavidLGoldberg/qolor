@@ -1,3 +1,6 @@
+### global
+atom
+###
 {Disposable, CompositeDisposable, Point, Range} = require 'atom'
 md5 = require 'md5'
 
@@ -21,7 +24,7 @@ class QolorView extends HTMLElement
             editor.onDidDestroy -> disposable.dispose()
 
             # watch for the appropriate language (grammar's scopeName)
-            @subscriptions.add editor.onDidChangeGrammar (grammar) =>
+            @subscriptions.add editor.onDidChangeGrammar ->
                 @update(editor)
 
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
@@ -113,7 +116,7 @@ class QolorView extends HTMLElement
                 @aliasesForEditor[editor.id] = {}
             @aliasesForEditor[editor.id][alias] = tableName
 
-        parseTable = (tokenValue, lineNum, tokenPos) ->
+        parseTable = (tokenValue) ->
             if tokenValue.includes '['
                 hasBrackets = true
                 matches = tokenValue.match /^(\s*)\[(\S*)\](\s*)(\S*)(\s*)$/
@@ -139,7 +142,7 @@ class QolorView extends HTMLElement
             return parsedTable
 
         decorateTable = (lineNum, tokenPos, parsedTable) =>
-            { leading, tableName, middle, alias, trailing } = parsedTable
+            { leading, tableName, middle, alias } = parsedTable
             className = getClass tableName
             color = getColor tableName
             @subscriptions.add addStyle(tableName, className, color)
@@ -203,8 +206,7 @@ class QolorView extends HTMLElement
                 else
                     decorateNext = false
                     tokenValue = token.value.toLowerCase() # not trimmed
-                    parsedTable = parseTable tokenValue, lineNum, tokenPos
-
+                    parsedTable = parseTable tokenValue
                     if @testMode
                         console.table [ # Useful for debugging:
                             token: tokenValue
@@ -248,7 +250,7 @@ class QolorView extends HTMLElement
                         @markers.push marker
                         @markersForEditor[editor.id].push marker
 
-                        decoration = editor.decorateMarker marker,
+                        editor.decorateMarker marker,
                             type: 'highlight'
                             class: className
 

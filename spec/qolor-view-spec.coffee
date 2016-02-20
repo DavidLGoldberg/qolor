@@ -1,5 +1,7 @@
-QolorView = require '../lib/qolor-view'
-
+### global
+atom
+describe xdescribe beforeEach it runs expect waitsForPromise
+###
 path = require 'path'
 
 describe "QolorView", ->
