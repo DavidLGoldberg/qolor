@@ -1,3 +1,7 @@
+# 0.2.2 - Bug fix
+
+*   Fixes #14 - Error on switch language.
+
 # 0.2.1 - Bug fixes
 
 *   Fixes #9 - not decorating on load.
