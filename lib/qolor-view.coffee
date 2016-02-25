@@ -24,7 +24,7 @@ class QolorView extends HTMLElement
             editor.onDidDestroy -> disposable.dispose()
 
             # watch for the appropriate language (grammar's scopeName)
-            @subscriptions.add editor.onDidChangeGrammar ->
+            @subscriptions.add editor.onDidChangeGrammar =>
                 @update(editor)
 
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
