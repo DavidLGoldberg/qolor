@@ -14,7 +14,7 @@ class QolorView extends HTMLElement
     initialize: () ->
         @subscriptions = new CompositeDisposable
         @subscriptions.add atom.workspace.observeTextEditors (editor) =>
-            disposable = editor.onDidStopChanging =>
+            disposable = editor.onDidStopChanging => # only when an edit
                 @testMode = editor.buffer # set if any of the editors have it :\
                     # check exists (?'s) for new file case
                     ?.file?.path.includes 'qolor/spec/fixtures/'
@@ -25,7 +25,7 @@ class QolorView extends HTMLElement
 
             # watch for the appropriate language (grammar's scopeName)
             @subscriptions.add editor.onDidChangeGrammar =>
-                @update(editor)
+                @update editor
 
             @subscriptions.add atom.config.onDidChange 'qolor.fourBorders', =>
                 @update editor
@@ -78,8 +78,14 @@ class QolorView extends HTMLElement
         text = editor.getText()
         editorView = atom.views.getView(editor)
 
+        # This is in place for temp tables
+        # Seems to be mostly a safe one off.
+        # NOTE: (##) denotes a global temporary object.
+        # NOTE: subsequent characters include '#' e.g.,
+        # #names#allow#number#signs
+        # https://social.msdn.microsoft.com/Forums/sqlserver/en-US/154c19c4-95ba-4b6f-b6ca-479288feabfb/characters-that-are-not-allowed-in-table-name-column-name-in-sql-server-?forum=databasedesign
         getClass = (name) ->
-            "qolor-name-#{name}"
+            "qolor-name-#{name}".replace(/#/g, '__hash__')
 
         getColor = (name) ->
             md5(name)[..5]

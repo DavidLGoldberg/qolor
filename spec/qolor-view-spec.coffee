@@ -122,14 +122,14 @@ describe "QolorView", ->
         it 'has marker @ "temp1" despite schema', ->
             markerCheck 'temp-table-1.sql',
                 index: 0
-                start: { row: 0, column: 15 }
+                start: { row: 0, column: 14 }
                 end:   { row: 0, column: 20 }
 
     describe 'into statement with temp table', ->
         it 'has marker @ "temp2 tmp2" despite schema', ->
             markerCheck 'temp-table-2.sql',
                 index: 0
-                start: { row: 0, column: 15 }
+                start: { row: 0, column: 14 }
                 end:   { row: 0, column: 25 }
 
     describe 'insert into statement', ->
