@@ -313,8 +313,7 @@ describe "QolorView", ->
                 start: { row: 0, column: 21 }
                 end:   { row: 0, column: 28 }
 
-    # Currently the language-sql breaks on numbers but this should be fixed soon
-    xdescribe 'numbers in tables or aliases', ->
+    describe 'numbers in tables or aliases', ->
         it 'has marker @ "test2 t2"', ->
             markerCheck 'numbers.sql',
                 index: 0
