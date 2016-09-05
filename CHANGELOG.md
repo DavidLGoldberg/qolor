@@ -1,3 +1,9 @@
+# 0.2.3 - Bug fixes
+
+*   Fixes #18 - Temp tables with language-sql update in Atom.
+*   Fixes #6 - Qolor works again with digits in table names (language-sql update)
+*   Add comment in README.md about auto associating file types
+
 # 0.2.2 - Bug fix
 
 *   Fixes #14 - Error on switch language.
