@@ -3,7 +3,7 @@
 ![](https://img.shields.io/apm/dm/qolor.svg)
 ![](https://img.shields.io/apm/v/qolor.svg)
 
-An atom package to color your queries!
+An atom package to color your SQL queries!
 
 Qolor applies semantic highlighting to your SQL queries by matching tables to
 their aliases.
