@@ -160,8 +160,7 @@ class QolorView extends HTMLElement
                 (if parsedTable.hasBrackets then 2 else 0)
                 # trailing.length: (don't need it thus far)
 
-            return [(editor.markBufferRange new Range(start, finish),
-                type: 'qolor')
+            return [(editor.markBufferRange new Range(start, finish))
                 , className]
 
         decorateAlias = (token, lineNum, tokenPos) =>
@@ -177,9 +176,7 @@ class QolorView extends HTMLElement
 
             return [(editor.markBufferRange new Range(
                 new Point(lineNum, tokenPos),
-                new Point(lineNum, tokenPos + originalTokenLength)),
-                type: 'qolor')
-                , className]
+                new Point(lineNum, tokenPos + originalTokenLength))), className]
 
         decorateNext = false # used by tablesTraverser
         justDecorated = '' # used by tablesTraverser
@@ -257,6 +254,7 @@ class QolorView extends HTMLElement
                         @markersForEditor[editor.id].push marker
 
                         editor.decorateMarker marker,
+                            isQolor: true,
                             type: 'highlight'
                             class: className
 
