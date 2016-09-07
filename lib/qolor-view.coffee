@@ -69,7 +69,11 @@ class QolorView extends HTMLElement
         grammar = editor.getGrammar()
 
         # don't do anything to any non sql file!
-        unless grammar.scopeName in ['source.sql', 'source.sql.mustache']
+        unless grammar.scopeName in [
+                'source.sql'
+                'source.sql.mustache'
+                'source.pgsql'
+            ]
             @clearMarkers(editor) # necessary for onDidChangeGrammar
             return
 
@@ -164,6 +168,7 @@ class QolorView extends HTMLElement
                 , className]
 
         decorateAlias = (token, lineNum, tokenPos) =>
+            console.log '???????', token, lineNum, tokenPos
             # NOTE: Assert: Is 2ND PASS ("aliases") ONLY!
             tokenValue = token.value.trim().toLowerCase()
             originalTokenLength = token.value.length
@@ -204,7 +209,7 @@ class QolorView extends HTMLElement
             if decorateNext
                 if tokenValue in ['', '#', '.']
                     return [null, null]
-                else if 'constant.other.database-name.sql' in token.scopes
+                else if (token.scopes.includes('constant.other.database-name.sql') || token.scopes.includes('keyword.other.pgsql'))
                     return [null, null]
                 else
                     decorateNext = false
@@ -233,7 +238,7 @@ class QolorView extends HTMLElement
             decorateNext = shouldDecorateNext(tokenValue)
 
         aliasesTraverser = (token, lineNum, tokenPos) ->
-            if 'constant.other.database-name.sql' in token.scopes
+            if (token.scopes.includes('constant.other.database-name.sql') || token.scopes.includes('keyword.other.pgsql'))
                 decorateAlias token, lineNum, tokenPos
             else
                 [null, null]
