@@ -96,9 +96,6 @@ for observing the grammar and because well, computers are fast.
 
 ## TODO
 
-*   [BUG] Table and aliases with numbers see this [issue](https://github.com/atom/language-sql/issues/30).
-This was working and will probably be fixed, so not going to make a workaround.
-
 *   [BUG] Cartesian products / cross joins don't work.
 They are particularly troublesome without aliases.  This is due to existing
 limitations in the `language-sql` grammar.  I have an idea of how to address
