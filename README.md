@@ -35,19 +35,27 @@ I only built it to facilitate pull requests etc.
 
 Go to Atom -> Open Your Keymap and enter the following:
 
-    'atom-workspace':
-      'ctrl-alt-q': 'qolor:toggle'
+```coffeescript
 
-    # Careful, don't override your existing 'atom-workspace'!
+'atom-workspace':
+  'ctrl-alt-q': 'qolor:toggle'
+
+# Careful, don't override your existing 'atom-workspace'!
+
+```
 
 ## How to Auto Associate File Types in Atom
 
 Go to Atom -> 'Init Script...' and add in:
 
-    # This example associates all mustache files with 'SQL (Mustache)'.
-    atom.workspace.observeTextEditors (editor) ->
-      if editor.getPath()?.match(/\.mustache$/)
-        editor.setGrammar(atom.grammars.grammarForScopeName('source.sql.mustache'))
+```coffeescript
+
+# This example associates all mustache files with 'SQL (Mustache)'.
+atom.workspace.observeTextEditors (editor) ->
+  if editor.getPath()?.match(/\.mustache$/)
+    editor.setGrammar(atom.grammars.grammarForScopeName('source.sql.mustache'))
+
+```
 
 
 ## Prior Art / Related Works
