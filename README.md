@@ -1,5 +1,7 @@
 # Qolor
 
+[![Join the chat at https://gitter.im/qolor-atom/Lobby](https://badges.gitter.im/qolor-atom/Lobby.svg)](https://gitter.im/qolor-atom/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![](https://img.shields.io/apm/dm/qolor.svg)
 ![](https://img.shields.io/apm/v/qolor.svg)
 
