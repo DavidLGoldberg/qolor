@@ -1,3 +1,9 @@
+# 0.3.0 - Gitter and Travis Continuous Integration
+
+*   Adds .travis.yml to project for Travis Continuous Integration.
+*   Adds a gitter badge to the README.md.
+*   Updates README.md a bit.
+
 # 0.2.4 - Remove deprecation warnings
 
 *   Remove the deprecation warnings from custom marker properties.
