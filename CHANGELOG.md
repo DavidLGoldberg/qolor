@@ -1,3 +1,7 @@
+# 0.4.0 - Handle the "as" keyword in aliases
+
+*   Fixes #10 - "Handle the "as" keyword with aliases.
+
 # 0.3.1 - Add Travis CI Badge
 
 *   First run of Travis!
