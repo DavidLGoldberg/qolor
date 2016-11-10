@@ -120,9 +120,11 @@ describe "QolorView", ->
                 start: { row: 0, column: 18 }
                 end:   { row: 0, column: 33 }
 
-    fdescribe 'table alias with "as" keyword', ->
-        # TODO: make sure that the hash'es match for these...
+    describe 'table alias with "as" keyword', ->
+        # TODO: make sure that the color hash'es match for these...
         # optional in markerCheck?
+
+        # Tables:
         it 'has marker for table "table1"', ->
             markerCheck 'alias-table-with-as.sql',
                 index: 0
@@ -143,6 +145,23 @@ describe "QolorView", ->
                 index: 9
                 start: { row: 6, column: 5 }
                 end:   { row: 6, column: 11 }
+
+        # Aliases:
+        it 'has marker for alias "t1"', ->
+            markerCheck 'alias-table-with-as.sql',
+                index: 1
+                start: { row: 1, column: 15 }
+                end:   { row: 1, column: 17 }
+        fit 'has marker for alias "t1"', ->
+            markerCheck 'alias-table-with-as.sql',
+                index: 3
+                start: { row: 3, column: 7 }
+                end:   { row: 3, column: 9 }
+        it 'has marker for alias "t2"', ->
+            markerCheck 'alias-table-with-as.sql',
+                index: 4
+                start: { row: 3, column: 16 }
+                end:   { row: 3, column: 18 }
 
     describe 'field alias with "as" keyword', ->
         it 'has marker for alias "d" despite appearing before defined', ->
