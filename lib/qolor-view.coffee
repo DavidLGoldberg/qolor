@@ -100,6 +100,7 @@ class QolorView extends HTMLElement
             if atom.config.get 'qolor.fourBorders'
                 borderStyle = "border: 2px solid ##{color};"
             styleNode.innerHTML = """
+                /* qolor styles */
                 .highlight.#{className} .region {
                     /* reset the values: */
                     border: none;
@@ -108,12 +109,19 @@ class QolorView extends HTMLElement
                     #{borderStyle}
                 }
             """
-            editorView.stylesElement.appendChild styleNode
+            # TODO: Remove the "old stable path" soon.
+            if editorView.stylesElement # for old (stable) atom
+                editorView.stylesElement.appendChild styleNode
 
-            # return a disposable for easy removal
-            return new Disposable ->
-                styleNode.parentNode.removeChild(styleNode)
-                styleNode = null
+                return new Disposable ->
+                    styleNode.parentNode.removeChild(styleNode)
+                    styleNode = null
+            else # new beta channel code
+                editorView.styles.addStyleElement styleNode
+
+                return new Disposable ->
+                    editorView.styles.removeStyleElement styleNode
+                    styleNode = null
 
         registerAlias = (tableName, alias) =>
             if alias.match /.*\(.*\).*/
