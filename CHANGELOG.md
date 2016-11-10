@@ -1,3 +1,7 @@
+# 0.4.1 - Fix build for beta channel
+
+*   Fixes the build for the beta channel (way Atom handles styles).
+
 # 0.4.0 - Handle the "as" keyword in aliases
 
 *   Fixes #10 - "Handle the "as" keyword with aliases.
