@@ -1,3 +1,9 @@
+# 0.4.2 - Fix build for beta channel
+
+*   Fixes the build for the beta channel (way Atom handles
+    styles again, but this time this solution works for stable and beta
+    branch without needing to fork.
+
 # 0.4.1 - Fix build for beta channel
 
 *   Fixes the build for the beta channel (way Atom handles styles).

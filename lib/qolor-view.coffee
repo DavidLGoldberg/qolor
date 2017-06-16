@@ -109,19 +109,11 @@ class QolorView extends HTMLElement
                     #{borderStyle}
                 }
             """
-            # TODO: Remove the "old stable path" soon.
-            if editorView.stylesElement # for old (stable) atom
-                editorView.stylesElement.appendChild styleNode
+            document.querySelector('head atom-styles').appendChild styleNode
 
-                return new Disposable ->
-                    styleNode.parentNode.removeChild(styleNode)
-                    styleNode = null
-            else # new beta channel code
-                editorView.styles.addStyleElement styleNode
-
-                return new Disposable ->
-                    editorView.styles.removeStyleElement styleNode
-                    styleNode = null
+            return new Disposable ->
+                styleNode.parentNode.removeChild(styleNode);
+                styleNode = null
 
         registerAlias = (tableName, alias) =>
             if alias.match /.*\(.*\).*/
