@@ -1,7 +1,7 @@
 {
   "name": "qolor",
   "main": "./lib/qolor",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "An atom package to color your SQL queries!",
   "keywords": [
     "sql",
