@@ -125,3 +125,7 @@ Maybe visual like a minimap?  Query execution plans etc.
 ## My other Atom package :)
 
 *   [Jumpy](https://atom.io/packages/jumpy)
+
+## My VS Code version of Jumpy :))
+
+*   [Jumpy2](https://marketplace.visualstudio.com/items?itemName=DavidLGoldberg.jumpy2) (Jumpy for VS Code from it's original author!)
